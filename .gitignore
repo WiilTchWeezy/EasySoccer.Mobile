@@ -3,3 +3,10 @@
 ################################################################################
 
 /.vs/EasySoccer.Mobile/v15/Server/sqlite3
+/.vs/EasySoccer.Mobile/v15/.suo
+/.vs
+/EasySoccer.Mobile/EasySoccer.Mobile/obj
+/EasySoccer.Mobile/EasySoccer.Mobile/bin/Debug/netstandard2.0
+/EasySoccer.Mobile/EasySoccer.Mobile.Android/bin/Debug
+/EasySoccer.Mobile/EasySoccer.Mobile.Android/obj
+/EasySoccer.Mobile/EasySoccer.Mobile.iOS/obj
