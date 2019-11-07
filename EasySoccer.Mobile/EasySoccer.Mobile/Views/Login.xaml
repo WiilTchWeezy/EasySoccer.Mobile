@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="EasySoccer.Mobile.Views.Login"
+             Visual="Material">
+    <Grid>
+        <Image Source="LoginScreen.jpg" Aspect="Fill"/>
+        <Frame VerticalOptions="Center" HasShadow="True" Opacity="0.7" BackgroundColor="#DCDCDC" Margin="5">
+            <StackLayout>
+                <Image Source="Logo.jpg" HorizontalOptions="Center"/>
+                <Entry Placeholder="Usuario" BackgroundColor="Transparent"/>
+                <Entry Placeholder="Senha" BackgroundColor="Transparent" />
+                <Button Text="Login"></Button>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button Text="Facebook" Grid.Column="0"/>
+                    <Button Text="Google" Grid.Column="1"/>
+                </Grid>
+            </StackLayout>
+        </Frame>
+    </Grid>
+</ContentPage>
