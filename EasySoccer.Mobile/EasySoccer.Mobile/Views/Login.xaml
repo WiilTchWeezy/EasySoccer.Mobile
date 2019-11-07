@@ -7,9 +7,9 @@
              Visual="Material">
     <Grid>
         <Image Source="LoginScreen.jpg" Aspect="Fill"/>
-        <Frame VerticalOptions="Center" HasShadow="True" Opacity="0.7" BackgroundColor="#DCDCDC" Margin="5">
+        <Frame VerticalOptions="Center" HasShadow="True" Opacity="0.7" BackgroundColor="#DCDCDC" Margin="15">
             <StackLayout>
-                <Image Source="Logo.jpg" HorizontalOptions="Center"/>
+                <Image Source="logo.png" HorizontalOptions="Center" Margin="15" />
                 <Entry Placeholder="Usuario" BackgroundColor="Transparent"/>
                 <Entry Placeholder="Senha" BackgroundColor="Transparent" />
                 <Button Text="Login"></Button>
