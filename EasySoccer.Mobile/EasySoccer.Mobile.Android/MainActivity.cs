@@ -1,9 +1,12 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using Plugin.FacebookClient;
 using Prism;
 using Prism.Ioc;
+using System;
 
 namespace EasySoccer.Mobile.Droid
 {
@@ -20,6 +23,8 @@ namespace EasySoccer.Mobile.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             global::Xamarin.Forms.FormsMaterial.Init(this, bundle);
+            FacebookClientManager.Initialize(this);
+            PrintHashKey();
             LoadApplication(new App(new AndroidInitializer()));
         }
 
@@ -27,6 +32,35 @@ namespace EasySoccer.Mobile.Droid
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent)
+        {
+            base.OnActivityResult(requestCode, resultCode, intent);
+            FacebookClientManager.OnActivityResult(requestCode, resultCode, intent);
+        }
+
+        private void PrintHashKey()
+        {
+            try
+            {
+                PackageInfo info = Android.App.Application.Context.PackageManager.GetPackageInfo(Android.App.Application.Context.PackageName, PackageInfoFlags.Signatures);
+                foreach (var signature in info.Signatures)
+                {
+                    Java.Security.MessageDigest md = Java.Security.MessageDigest.GetInstance("SHA");
+                    md.Update(signature.ToByteArray());
+
+                    System.Diagnostics.Debug.WriteLine(System.Convert.ToBase64String(md.Digest()));
+                }
+            }
+            catch (Java.Security.NoSuchAlgorithmException e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
         }
     }
 

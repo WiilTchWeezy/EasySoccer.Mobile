@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="hello">Hello World, Click Me!</string>
-	<string name="app_name">EasySoccer.Mobile.Droid</string>
+  <string name="app_name">EasySoccer.Mobile.Droid</string>
+  <string name="facebook_app_name">EasySoccer</string>
+  <string name="facebook_app_id">986545118366784</string>
+  <string name="fb_login_protocol_scheme">fb986545118366784</string>
 </resources>
