@@ -1,4 +1,7 @@
-﻿using Plugin.FacebookClient;
+﻿using Acr.UserDialogs;
+using EasySoccer.Mobile.Infra.Facebook;
+using Newtonsoft.Json;
+using Plugin.FacebookClient;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -21,7 +24,8 @@ namespace EasySoccer.Mobile.ViewModels
             var facebookLoginResponse = await CrossFacebookClient.Current.RequestUserDataAsync(new string[] { "email", "first_name", "gender", "last_name", "birthday" }, new string[] { "email", "user_birthday" });
             if(facebookLoginResponse.Status == FacebookActionStatus.Completed)
             {
-
+                var facebookResponseData = JsonConvert.DeserializeObject<FacebookResponseData>(facebookLoginResponse.Data);
+                UserDialogs.Instance.Alert($"Olá {facebookResponseData.first_name} {facebookResponseData.last_name}.");
             }
         }
 	}
