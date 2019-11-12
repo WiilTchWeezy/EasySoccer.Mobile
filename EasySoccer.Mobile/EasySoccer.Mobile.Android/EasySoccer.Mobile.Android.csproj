@@ -112,6 +112,10 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\EasySoccer.Mobile.API\EasySoccer.Mobile.API.csproj">
+      <Project>{2205a736-3eb0-4274-9b88-a843658bc616}</Project>
+      <Name>EasySoccer.Mobile.API</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EasySoccer.Mobile\EasySoccer.Mobile.csproj">
       <Project>{A682884C-CB44-4A89-B752-27BB634E0ABE}</Project>
       <Name>EasySoccer.Mobile</Name>
