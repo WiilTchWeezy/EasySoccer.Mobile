@@ -1,11 +1,14 @@
 ﻿using Acr.UserDialogs;
+using EasySoccer.Mobile.API.ApiResponses;
 using EasySoccer.Mobile.API.Infra.Exceptions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace EasySoccer.Mobile.API
 {
@@ -69,9 +72,24 @@ namespace EasySoccer.Mobile.API
             return response;
         }
 
-        public async Task LoginAsync()
+        public async Task<TokenResponse> LoginAsync(string email, string password)
         {
+            var response = await Get<TokenResponse>("login/token" + GenerateQueryParameters(email, password));
+            Preferences.Remove("AuthToken");
+            Preferences.Remove("AuthExpiresDate");
+            Preferences.Set("AuthToken", response.Token);
+            Preferences.Set("AuthExpiresDate", response.ExpireDate);
+            return response;
+        }
 
+        private string GenerateQueryParameters(params string[] parameters)
+        {
+            NameValueCollection queryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
+            foreach (var item in parameters)
+            {
+                queryString[item.GetType().Name] = item;
+            }
+            return queryString.ToString();
         }
     }
 }
