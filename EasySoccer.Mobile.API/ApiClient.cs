@@ -1,4 +1,5 @@
-﻿using EasySoccer.Mobile.API.Infra.Exceptions;
+﻿using Acr.UserDialogs;
+using EasySoccer.Mobile.API.Infra.Exceptions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -38,23 +39,34 @@ namespace EasySoccer.Mobile.API
             if (httpResponse.StatusCode == System.Net.HttpStatusCode.OK)
                 return JsonConvert.DeserializeObject<T>(await httpResponse.Content.ReadAsStringAsync());
             else
-                throw new ApiException(await httpResponse.Content.ReadAsStringAsync());
+            {
+                UserDialogs.Instance.HideLoading();
+                throw JsonConvert.DeserializeObject<ApiException>(await httpResponse.Content.ReadAsStringAsync());
+            }
         }
 
         private async Task<T> Get<T>(string apiMethod)
         {
+            T response;
+            UserDialogs.Instance.ShowLoading("");
             using (var httpClient = CreateClient())
             {
-                return await TreatApiReturn<T>(await httpClient.GetAsync(apiMethod));
+                response = await TreatApiReturn<T>(await httpClient.GetAsync(apiMethod));
             }
+            UserDialogs.Instance.HideLoading();
+            return response;
         }
 
         private async Task<TReturn> Post<TReturn, TRequest>(string apiMethod, TRequest request)
         {
-            using (var httpClient = new HttpClient())
+            TReturn response;
+            UserDialogs.Instance.ShowLoading("");
+            using (var httpClient = CreateClient())
             {
-                return await TreatApiReturn<TReturn>(await httpClient.PostAsJsonAsync(apiMethod, request));
+                response = await TreatApiReturn<TReturn>(await httpClient.PostAsJsonAsync(apiMethod, request));
             }
+            UserDialogs.Instance.HideLoading();
+            return response;
         }
 
         public async Task LoginAsync()
