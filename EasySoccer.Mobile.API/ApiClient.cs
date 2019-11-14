@@ -27,13 +27,17 @@ namespace EasySoccer.Mobile.API
             }
         }
 
-        const string ApiUrl = "";
+        const string ApiUrl = "https://apieasysoccer.azurewebsites.net/api/";
 
         private HttpClient CreateClient()
         {
             var httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri(ApiUrl);
             httpClient.DefaultRequestHeaders.Clear();
+            if (Preferences.ContainsKey("AuthToken"))
+            {
+                httpClient.DefaultRequestHeaders.Add("Authorization", Preferences.Get("AuthToken", String.Empty));
+            }
             return httpClient;
         }
 
@@ -44,7 +48,8 @@ namespace EasySoccer.Mobile.API
             else
             {
                 UserDialogs.Instance.HideLoading();
-                throw JsonConvert.DeserializeObject<ApiException>(await httpResponse.Content.ReadAsStringAsync());
+                var response = await httpResponse.Content.ReadAsStringAsync();
+                throw JsonConvert.DeserializeObject<ApiException>(response);
             }
         }
 
@@ -72,24 +77,36 @@ namespace EasySoccer.Mobile.API
             return response;
         }
 
-        public async Task<TokenResponse> LoginAsync(string email, string password)
+        private string GenerateQueryParameters(object parameters)
         {
-            var response = await Get<TokenResponse>("login/token" + GenerateQueryParameters(email, password));
+            NameValueCollection queryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
+            foreach (var item in parameters.GetType().GetProperties())
+            {
+                queryString.Add(item.Name, item.GetValue(parameters).ToString());
+            }
+            return queryString.ToString();
+        }
+
+        private void SetUserPreferences(string token, DateTime expireDate)
+        {
             Preferences.Remove("AuthToken");
             Preferences.Remove("AuthExpiresDate");
-            Preferences.Set("AuthToken", response.Token);
-            Preferences.Set("AuthExpiresDate", response.ExpireDate);
+            Preferences.Set("AuthToken", token);
+            Preferences.Set("AuthExpiresDate", expireDate);
+        }
+
+        public async Task<TokenResponse> LoginAsync(string email, string password)
+        {
+            var response = await Get<TokenResponse>("login/token" + GenerateQueryParameters(new { email, password }));
+            SetUserPreferences(response.Token, response.ExpireDate);
             return response;
         }
 
-        private string GenerateQueryParameters(params string[] parameters)
+        public async Task<TokenResponse> LoginFromFacebook(string Email, string First_name, string Last_name, string Birthday, string Id)
         {
-            NameValueCollection queryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
-            foreach (var item in parameters)
-            {
-                queryString[item.GetType().Name] = item;
-            }
-            return queryString.ToString();
+            var response = await Get<TokenResponse>("login/tokenfromfacebook" + GenerateQueryParameters(new { Email, First_name, Last_name, Birthday, Id }));
+            SetUserPreferences(response.Token, response.ExpireDate);
+            return response;
         }
     }
 }
