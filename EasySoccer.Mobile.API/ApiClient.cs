@@ -59,7 +59,7 @@ namespace EasySoccer.Mobile.API
             UserDialogs.Instance.ShowLoading("");
             using (var httpClient = CreateClient())
             {
-                response = await TreatApiReturn<T>(await httpClient.GetAsync(apiMethod));
+                response = await TreatApiReturn<T>(await httpClient.GetAsync(ApiUrl + apiMethod));
             }
             UserDialogs.Instance.HideLoading();
             return response;
@@ -97,14 +97,14 @@ namespace EasySoccer.Mobile.API
 
         public async Task<TokenResponse> LoginAsync(string email, string password)
         {
-            var response = await Get<TokenResponse>("login/token" + GenerateQueryParameters(new { email, password }));
+            var response = await Get<TokenResponse>("login/token?" + GenerateQueryParameters(new { email, password }));
             SetUserPreferences(response.Token, response.ExpireDate);
             return response;
         }
 
         public async Task<TokenResponse> LoginFromFacebook(string Email, string First_name, string Last_name, string Birthday, string Id)
         {
-            var response = await Get<TokenResponse>("login/tokenfromfacebook" + GenerateQueryParameters(new { Email, First_name, Last_name, Birthday, Id }));
+            var response = await Get<TokenResponse>("login/tokenfromfacebook?" + GenerateQueryParameters(new { Email, First_name, Last_name, Birthday, Id }));
             SetUserPreferences(response.Token, response.ExpireDate);
             return response;
         }
