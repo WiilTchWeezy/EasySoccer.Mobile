@@ -7,9 +7,12 @@
               Visual="Material">
     <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="#DCDCDC">
         <CollectionView ItemsSource="{Binding SoccerPitchs}" Margin="10" >
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+            </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame HasShadow="True" CornerRadius="10" Margin="5" Padding="0">
+                    <Frame HasShadow="True" CornerRadius="10" Margin="15" Padding="0">
                         <Grid Margin="0" Padding="0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"></RowDefinition>
@@ -22,7 +25,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
-                <Grid>
+                <Grid VerticalOptions="FillAndExpand">
                     <Label VerticalOptions="Center" HorizontalOptions="Center" Text="Nenhum complexo encontrado." TextColor="#EEEEEE"/>
                 </Grid>
             </CollectionView.EmptyView>

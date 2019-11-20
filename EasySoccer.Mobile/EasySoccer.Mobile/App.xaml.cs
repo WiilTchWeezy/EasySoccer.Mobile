@@ -4,6 +4,8 @@ using EasySoccer.Mobile.ViewModels;
 using EasySoccer.Mobile.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Essentials;
+using System;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace EasySoccer.Mobile
@@ -22,7 +24,16 @@ namespace EasySoccer.Mobile
         protected override async void OnInitialized()
         {
             InitializeComponent();
-
+            if (Preferences.ContainsKey("AuthExpiresDate"))
+            {
+                DateTime expiresDate = DateTime.MinValue;
+                DateTime.TryParse(Preferences.Get("AuthExpiresDate", null), out expiresDate);
+                if (expiresDate != DateTime.MinValue && expiresDate > DateTime.Now)
+                {
+                    await NavigationService.NavigateAsync("/NavigationPage/SoccerPitchSearch");
+                }
+                await NavigationService.NavigateAsync("Login");
+            }
             await NavigationService.NavigateAsync("Login");
         }
 
