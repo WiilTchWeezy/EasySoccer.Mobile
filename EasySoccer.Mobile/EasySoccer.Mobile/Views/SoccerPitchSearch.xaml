@@ -3,6 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="EasySoccer.Mobile.Views.SoccerPitchSearch">
-  
+             x:Class="EasySoccer.Mobile.Views.SoccerPitchSearch"
+              Visual="Material">
+    <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="#DCDCDC">
+        <CollectionView ItemsSource="{Binding SoccerPitchs}" Margin="10" >
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame HasShadow="True" CornerRadius="10" Margin="5" Padding="0">
+                        <Grid Margin="0" Padding="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Image Source="{Binding Image}" Grid.Row="0" Aspect="Fill" HeightRequest="100"></Image>
+                            <Label Text="{Binding Name}" Grid.Row="1" VerticalOptions="Center" FontSize="Medium" FontAttributes="Bold"></Label>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Grid>
+                    <Label VerticalOptions="Center" HorizontalOptions="Center" Text="Nenhum complexo encontrado." TextColor="#EEEEEE"/>
+                </Grid>
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </StackLayout>
+
 </ContentPage>
