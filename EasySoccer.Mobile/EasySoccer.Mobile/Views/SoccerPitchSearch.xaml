@@ -12,7 +12,7 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame HasShadow="True" CornerRadius="10" Margin="15" Padding="0">
+                    <Frame HasShadow="True" CornerRadius="10" Margin="15" Padding="0" IsClippedToBounds="True">
                         <Grid Margin="0" Padding="0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"></RowDefinition>
