@@ -25,6 +25,8 @@ namespace EasySoccer.Mobile
         protected override async void OnInitialized()
         {
             InitializeComponent();
+            Plugin.Iconize.Iconize.With(new Plugin.Iconize.Fonts.FontAwesomeRegularModule())
+                                  .With(new Plugin.Iconize.Fonts.FontAwesomeSolidModule());
             if (CurrentUser.Instance.IsLoggedIn)
                 await NavigationService.NavigateAsync("/NavigationPage/SoccerPitchSearch");
             else

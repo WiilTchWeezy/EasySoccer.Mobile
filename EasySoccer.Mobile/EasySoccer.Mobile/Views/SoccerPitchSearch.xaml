@@ -4,7 +4,8 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="EasySoccer.Mobile.Views.SoccerPitchSearch"
-              Visual="Material">
+             xmlns:iconize="clr-namespace:Plugin.Iconize;assembly=Plugin.Iconize"
+             Visual="Material">
     <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="#DCDCDC">
         <CollectionView ItemsSource="{Binding SoccerPitchs}" Margin="10" >
             <CollectionView.ItemsLayout>
@@ -19,14 +20,18 @@
                                 <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Image Source="{Binding Image}" Grid.Row="0" Aspect="Fill" HeightRequest="100"></Image>
-                            <Label Text="{Binding Name}" Grid.Row="1" VerticalOptions="Center" FontSize="Medium" FontAttributes="Bold"></Label>
+
+                            <StackLayout Grid.Row="1" Padding="5" Spacing="2">
+                                <Label Text="{Binding Name}" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" FontSize="Medium" FontAttributes="Bold"></Label>
+                                <Label Text="{Binding City}" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                            </StackLayout>
                         </Grid>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
                 <Grid VerticalOptions="FillAndExpand">
-                    <Label VerticalOptions="Center" HorizontalOptions="Center" Text="Nenhum complexo encontrado." TextColor="#EEEEEE"/>
+                    <Label VerticalOptions="Center" HorizontalOptions="Center" Text="Nenhum complexo encontrado." TextColor="#4E4E4E"/>
                 </Grid>
             </CollectionView.EmptyView>
         </CollectionView>

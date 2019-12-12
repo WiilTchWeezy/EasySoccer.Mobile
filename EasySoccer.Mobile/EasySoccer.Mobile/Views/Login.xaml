@@ -11,7 +11,7 @@
             <StackLayout>
                 <Image Source="logo.png" HorizontalOptions="Center" Margin="15" />
                 <Entry Placeholder="Usuario" BackgroundColor="Transparent" PlaceholderColor="#FF591F" TextColor="#161E53"/>
-                <Entry Placeholder="Senha" BackgroundColor="Transparent"  PlaceholderColor="#FF591F" TextColor="#161E53"/>
+                <Entry Placeholder="Senha" BackgroundColor="Transparent"  PlaceholderColor="#FF591F" TextColor="#161E53"/>   
                 <Button Text="Login" BackgroundColor="#161E53"></Button>
                 <Button Text="Facebook" BackgroundColor="#3B5998" Command="{Binding FacebookLoginCommand}"/>
                 <Button Text="Cadastre-se" BackgroundColor="#FF591F" TextColor="#FFF" />

@@ -36,7 +36,7 @@ namespace EasySoccer.Mobile.API
             httpClient.DefaultRequestHeaders.Clear();
             if (Preferences.ContainsKey("AuthToken"))
             {
-                httpClient.DefaultRequestHeaders.Add("Authorization", Preferences.Get("AuthToken", String.Empty));
+                httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Preferences.Get("AuthToken", String.Empty));
             }
             return httpClient;
         }
@@ -49,6 +49,8 @@ namespace EasySoccer.Mobile.API
             {
                 UserDialogs.Instance.HideLoading();
                 var response = await httpResponse.Content.ReadAsStringAsync();
+                if (string.IsNullOrEmpty(response))
+                    throw new ApiException("Ops! Ocorreu um erro.");
                 throw JsonConvert.DeserializeObject<ApiException>(response);
             }
         }
@@ -106,6 +108,12 @@ namespace EasySoccer.Mobile.API
         {
             var response = await Get<TokenResponse>("login/tokenfromfacebook?" + GenerateQueryParameters(new { Email, First_name, Last_name, Birthday, Id }));
             SetUserPreferences(response.Token, response.ExpireDate);
+            return response;
+        }
+
+        public async Task<List<CompanyResponse>> GetCompaniesAsync()
+        {
+            var response = await Get<List<CompanyResponse>>("company/get");
             return response;
         }
     }
