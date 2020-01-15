@@ -2,9 +2,12 @@
 {
     public class SoccerPitchResponse
     {
-        public string Image { get; set; }
+        public int Id { get; set; }
+        public string Description { get; set; }
+        public bool HasRoof { get; set; }
         public string Name { get; set; }
-        public string City { get; set; }
-        public int Distance { get; set; }
+        public int NumberOfPlayers { get; set; }
+        public int SportTypeId { get; set; }
+        public string SportTypeName { get; set; }
     }
 }

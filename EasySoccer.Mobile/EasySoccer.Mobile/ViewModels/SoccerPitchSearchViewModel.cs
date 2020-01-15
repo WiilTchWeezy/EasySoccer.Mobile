@@ -2,6 +2,8 @@
 using EasySoccer.Mobile.API;
 using EasySoccer.Mobile.API.ApiResponses;
 using EasySoccer.Mobile.API.Infra.Exceptions;
+using EasySoccer.Mobile.Models;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -15,23 +17,32 @@ namespace EasySoccer.Mobile.ViewModels
 {
     public class SoccerPitchSearchViewModel : BindableBase, INavigationAware
     {
-        public ObservableCollection<CompanyResponse> SoccerPitchs { get; set; }
-        public SoccerPitchSearchViewModel()
+        public ObservableCollection<CompanyModel> SoccerPitchs { get; set; }
+
+        public DelegateCommand<CompanyModel> SelectSoccerPicthCommand { get; set; }
+
+        private INavigationService _navigationService;
+        public SoccerPitchSearchViewModel(INavigationService navigationService)
         {
-            SoccerPitchs = new ObservableCollection<CompanyResponse>();
+            SoccerPitchs = new ObservableCollection<CompanyModel>();
+            SelectSoccerPicthCommand = new DelegateCommand<CompanyModel>(SelectSoccerPicth);
+            _navigationService = navigationService;
         }
 
         private async Task LoadDataAsync()
         {
             try
             {
+                SoccerPitchs.Clear();
                 var companiesResponse = await ApiClient.Instance.GetCompaniesAsync();
                 if (companiesResponse != null && companiesResponse.Count > 0)
                 {
                     foreach (var item in companiesResponse)
                     {
-                        item.Image = "https://img.stpu.com.br/?img=https://s3.amazonaws.com/pu-mgr/default/a0R0f00000vgXC1EAM/591de07de4b021f908345636.jpg&w=710&h=462";
-                        SoccerPitchs.Add(item);
+                        item.Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQjne-aTNHMNq_X8tpP-7G-T1OsPEsJ7GubYn8htIMP-3L0sv3z";
+                        var companyModel = new CompanyModel(item);
+                        companyModel.SelectSoccerPicthCommand = this.SelectSoccerPicthCommand;
+                        SoccerPitchs.Add(companyModel);
                     }
                 }
             }
@@ -39,6 +50,14 @@ namespace EasySoccer.Mobile.ViewModels
             {
                 UserDialogs.Instance.Alert(e.Message);
             }
+        }
+
+        private void SelectSoccerPicth(CompanyModel selectedSoccerPitch)
+        {
+            var navigationParameters = new NavigationParameters();
+            selectedSoccerPitch.SelectSoccerPicthCommand = null;
+            navigationParameters.Add("selectedSoccerPitch", JsonConvert.SerializeObject(selectedSoccerPitch));
+            _navigationService.NavigateAsync("SoccerPitchInfo", navigationParameters);
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)

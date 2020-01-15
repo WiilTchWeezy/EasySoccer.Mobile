@@ -36,7 +36,8 @@ namespace EasySoccer.Mobile.API
             httpClient.DefaultRequestHeaders.Clear();
             if (Preferences.ContainsKey("AuthToken"))
             {
-                httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Preferences.Get("AuthToken", String.Empty));
+                var token = Preferences.Get("AuthToken", String.Empty);
+                httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             }
             return httpClient;
         }
@@ -115,6 +116,11 @@ namespace EasySoccer.Mobile.API
         {
             var response = await Get<List<CompanyResponse>>("company/get");
             return response;
+        }
+
+        public async Task<List<SoccerPitchResponse>> GetSoccerPitchesAsync(long companyId)
+        {
+            return await Get<List<SoccerPitchResponse>>("soccerpitch/getbycompanyid?" + GenerateQueryParameters(new { Page = 1, PageSize = 99, CompanyId = companyId }));
         }
     }
 }

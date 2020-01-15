@@ -14,13 +14,15 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame HasShadow="True" CornerRadius="10" Margin="15" Padding="0" IsClippedToBounds="True">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectSoccerPicthCommand}" CommandParameter="{Binding .}"></TapGestureRecognizer>
+                        </Frame.GestureRecognizers>
                         <Grid Margin="0" Padding="0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Image Source="{Binding Image}" Grid.Row="0" Aspect="Fill" HeightRequest="100"></Image>
-
                             <StackLayout Grid.Row="1" Padding="5" Spacing="2">
                                 <Label Text="{Binding Name}" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" FontSize="Medium" FontAttributes="Bold"></Label>
                                 <Label Text="{Binding City}" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
