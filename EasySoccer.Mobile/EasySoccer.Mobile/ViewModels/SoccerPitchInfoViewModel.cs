@@ -63,6 +63,7 @@ namespace EasySoccer.Mobile.ViewModels
                 {
                     foreach (var item in response)
                     {
+                        item.Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQEumvi_yIGIc2_CNCwIX7lyubcM2OqdshH7d2Lc3kV1lNG6P6f";
                         SoccerPitchs.Add(item);
                     }
                 }

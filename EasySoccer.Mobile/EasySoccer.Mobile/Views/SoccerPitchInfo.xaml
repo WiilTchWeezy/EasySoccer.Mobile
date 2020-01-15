@@ -6,42 +6,58 @@
              x:Class="EasySoccer.Mobile.Views.SoccerPitchInfo"
              Title="{Binding Name}">
     <ContentPage.Content>
-        <StackLayout>
-            <Image Source="{Binding Image}" Aspect="Fill" HeightRequest="150"></Image>
-            <StackLayout Padding="5">
-                <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="Title"></Label>
-                <Label Text="{Binding City}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
-                <Label Text="{Binding CompleteAddress}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
-            </StackLayout>
-            <CollectionView ItemsSource="{Binding SoccerPitchs}" Margin="10" BackgroundColor="#DCDCDC" HeightRequest="200">
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10" />
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Padding="5">
-                            <Frame HasShadow="True" CornerRadius="10" VerticalOptions="FillAndExpand" WidthRequest="200" Padding="0" IsClippedToBounds="True">
-                                <Grid Margin="0" Padding="0">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                    </Grid.RowDefinitions>
-                                    <Image Source="{Binding Image}" Grid.Row="0" Aspect="Fill" HeightRequest="30"></Image>
-                                    <StackLayout Grid.Row="1" Padding="5" Spacing="2">
-                                        <Label Text="{Binding Name}" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" FontSize="Medium" FontAttributes="Bold"></Label>
-                                        <Label Text="{Binding SportTypeName}" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
-                                    </StackLayout>
-                                </Grid>
-                            </Frame>
+        <ScrollView>
+            <StackLayout>
+                <Image Source="{Binding Image}" Aspect="Fill" HeightRequest="150"></Image>
+                <StackLayout Padding="5">
+                    <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="Title"></Label>
+                    <Label Text="{Binding City}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                    <Label Text="{Binding CompleteAddress}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                </StackLayout>
+                <CollectionView ItemsSource="{Binding SoccerPitchs}" Margin="5" BackgroundColor="#DCDCDC" HeightRequest="200">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="5">
+                                <Frame HasShadow="True" CornerRadius="10" VerticalOptions="FillAndExpand" WidthRequest="200" Padding="0" IsClippedToBounds="True">
+                                    <Grid Margin="0" Padding="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"></RowDefinition>
+                                            <RowDefinition Height="Auto"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Image Source="{Binding Image}" Grid.Row="0" Aspect="Fill" HeightRequest="30"></Image>
+                                        <StackLayout Grid.Row="1" Padding="5" Spacing="2">
+                                            <Label Text="{Binding Name}" VerticalOptions="Center" FontSize="Medium" FontAttributes="Bold"></Label>
+                                            <Label Text="{Binding SportTypeName}" VerticalOptions="Center" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                                            <Label Text="{Binding NumberOfPlayers, StringFormat='Quantidade de jogadores : {0}'}" VerticalOptions="Center" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"/>
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <Grid VerticalOptions="FillAndExpand">
+                            <Label VerticalOptions="Center" HorizontalOptions="Center" Text="Nenhuma quadra encontrada." TextColor="#4E4E4E"/>
                         </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-                <CollectionView.EmptyView>
-                    <Grid VerticalOptions="FillAndExpand">
-                        <Label VerticalOptions="Center" HorizontalOptions="Center" Text="Nenhum complexo encontrado." TextColor="#4E4E4E"/>
+                    </CollectionView.EmptyView>
+                </CollectionView>
+                <StackLayout Margin="5">
+                    <Label Text="Selecione a data e hora que deseja marcar o horário."/>
+                    <Picker Title="Tipo de esporte"></Picker>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <DatePicker Grid.Column="0"></DatePicker>
+                        <TimePicker Grid.Column="1"></TimePicker>
                     </Grid>
-                </CollectionView.EmptyView>
-            </CollectionView>
-        </StackLayout>
+                    <Button Text="Verificar disponibilidade" TextColor="#FFF" BackgroundColor="#161E53"></Button>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

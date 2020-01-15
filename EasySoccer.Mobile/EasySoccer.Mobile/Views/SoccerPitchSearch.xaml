@@ -24,8 +24,8 @@
                             </Grid.RowDefinitions>
                             <Image Source="{Binding Image}" Grid.Row="0" Aspect="Fill" HeightRequest="100"></Image>
                             <StackLayout Grid.Row="1" Padding="5" Spacing="2">
-                                <Label Text="{Binding Name}" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" FontSize="Medium" FontAttributes="Bold"></Label>
-                                <Label Text="{Binding City}" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                                <Label Text="{Binding Name}" VerticalOptions="Center" FontSize="Medium" FontAttributes="Bold"></Label>
+                                <Label Text="{Binding City}" VerticalOptions="Center" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
                             </StackLayout>
                         </Grid>
                     </Frame>
