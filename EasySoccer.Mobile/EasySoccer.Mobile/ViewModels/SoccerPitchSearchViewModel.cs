@@ -2,6 +2,7 @@
 using EasySoccer.Mobile.API;
 using EasySoccer.Mobile.API.ApiResponses;
 using EasySoccer.Mobile.API.Infra.Exceptions;
+using EasySoccer.Mobile.Infra;
 using EasySoccer.Mobile.Models;
 using Newtonsoft.Json;
 using Prism.Commands;
@@ -45,6 +46,11 @@ namespace EasySoccer.Mobile.ViewModels
                         SoccerPitchs.Add(companyModel);
                     }
                 }
+            }
+            catch (ApiUnauthorizedException)
+            {
+                Application.Instance.LogOff(_navigationService);
+
             }
             catch (Exception e)
             {

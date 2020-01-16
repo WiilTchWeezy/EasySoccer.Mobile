@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="EasySoccer.Mobile.Views.ScheduleAvaliable">
+    <ContentPage.Content>
+        <StackLayout>
+            <Image Source="{Binding Image}" Aspect="Fill" HeightRequest="150"></Image>
+            <StackLayout Padding="5">
+                <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="Title"></Label>
+                <Label Text="{Binding City}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                <Label Text="{Binding CompleteAddress}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -46,16 +46,16 @@
                 </CollectionView>
                 <StackLayout Margin="5">
                     <Label Text="Selecione a data e hora que deseja marcar o horário."/>
-                    <Picker Title="Tipo de esporte"></Picker>
+                    <Picker ItemsSource="{Binding SportTypesNames}" SelectedIndex="{Binding SelectedSportTypeIndex}" Title="Tipo de esporte"></Picker>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <DatePicker Grid.Column="0"></DatePicker>
-                        <TimePicker Grid.Column="1"></TimePicker>
+                        <DatePicker Date="{Binding SelectedDate}" Grid.Column="0"></DatePicker>
+                        <TimePicker Time="{Binding SelectedTime}" Grid.Column="1"></TimePicker>
                     </Grid>
-                    <Button Text="Verificar disponibilidade" TextColor="#FFF" BackgroundColor="#161E53"></Button>
+                    <Button Text="Verificar disponibilidade" TextColor="#FFF" BackgroundColor="#161E53" Command="{Binding CheckScheduleAvaliableCommand}"></Button>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

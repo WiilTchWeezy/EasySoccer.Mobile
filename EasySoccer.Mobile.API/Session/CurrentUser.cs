@@ -47,5 +47,11 @@ namespace EasySoccer.Mobile.API.Session
                 return AuthExpiresDate.HasValue && AuthExpiresDate.Value > DateTime.Now && string.IsNullOrEmpty(AuthToken) == false;
             }
         }
+
+        public void LogOff()
+        {
+            Preferences.Remove("AuthToken");
+            Preferences.Remove("AuthExpiresDate");
+        }
     }
 }

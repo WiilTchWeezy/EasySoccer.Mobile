@@ -46,6 +46,11 @@ namespace EasySoccer.Mobile.API
         {
             if (httpResponse.StatusCode == System.Net.HttpStatusCode.OK)
                 return JsonConvert.DeserializeObject<T>(await httpResponse.Content.ReadAsStringAsync());
+            else if (httpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                UserDialogs.Instance.HideLoading();
+                throw new ApiUnauthorizedException("Ops! Você não está mais autenticado.");
+            }
             else
             {
                 UserDialogs.Instance.HideLoading();
@@ -121,6 +126,11 @@ namespace EasySoccer.Mobile.API
         public async Task<List<SoccerPitchResponse>> GetSoccerPitchesAsync(long companyId)
         {
             return await Get<List<SoccerPitchResponse>>("soccerpitch/getbycompanyid?" + GenerateQueryParameters(new { Page = 1, PageSize = 99, CompanyId = companyId }));
+        }
+
+        public async Task<List<SportTypeResponse>> GetSportTypesAsync()
+        {
+            return await Get<List<SportTypeResponse>>("soccerpitch/getsporttypes");
         }
     }
 }

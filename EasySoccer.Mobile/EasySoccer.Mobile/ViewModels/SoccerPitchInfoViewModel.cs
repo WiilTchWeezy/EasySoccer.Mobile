@@ -45,12 +45,44 @@ namespace EasySoccer.Mobile.ViewModels
             set { SetProperty(ref _completeAddress, value); }
         }
 
+        private DateTime _selectedDate = DateTime.Now;
+        public DateTime SelectedDate
+        {
+            get { return _selectedDate; }
+            set { SetProperty(ref _selectedDate, value); }
+        }
+
+        private TimeSpan _selectedTime;
+        public TimeSpan SelectedTime
+        {
+            get { return _selectedTime; }
+            set { SetProperty(ref _selectedTime, value); }
+        }
+
+        private int? _selectedSportTypeIndex = null;
+        public int? SelectedSportTypeIndex
+        {
+            get { return _selectedSportTypeIndex; }
+            set { SetProperty(ref _selectedSportTypeIndex, value); }
+        }
+
         private long _companyId = 0;
+        private CompanyModel _currentCompany;
 
         public ObservableCollection<SoccerPitchResponse> SoccerPitchs { get; set; }
-        public SoccerPitchInfoViewModel()
+        public List<SportTypeResponse> SportTypes { get; set; }
+        public ObservableCollection<string> SportTypesNames { get; set; }
+
+        public DelegateCommand CheckScheduleAvaliableCommand { get; set; }
+
+        private INavigationService _navigationService;
+        public SoccerPitchInfoViewModel(INavigationService navigationService)
         {
             SoccerPitchs = new ObservableCollection<SoccerPitchResponse>();
+            SportTypes = new List<SportTypeResponse>();
+            SportTypesNames = new ObservableCollection<string>();
+            CheckScheduleAvaliableCommand = new DelegateCommand(CheckScheduleAvaliable);
+            _navigationService = navigationService;
         }
 
         private async Task LoadSoccerPitchsAsync()
@@ -74,6 +106,47 @@ namespace EasySoccer.Mobile.ViewModels
             }
         }
 
+        private async Task LoadSportTypesAsync()
+        {
+            SportTypes.Clear();
+            try
+            {
+                var response = await ApiClient.Instance.GetSportTypesAsync();
+                if (response != null && response.Count > 0)
+                {
+                    foreach (var item in response)
+                    {
+                        SportTypesNames.Add(item.Name);
+                        SportTypes.Add(item);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                UserDialogs.Instance.Alert(e.Message);
+            }
+        }
+
+        private void CheckScheduleAvaliable()
+        {
+            if (SelectedSportTypeIndex.HasValue)
+            {
+                try
+                {
+                    var navigationParameters = new NavigationParameters();
+                    navigationParameters.Add(nameof(SelectedDate), SelectedDate);
+                    navigationParameters.Add(nameof(SelectedTime), SelectedTime);
+                    navigationParameters.Add("SelectedSportType", JsonConvert.SerializeObject(SportTypes[SelectedSportTypeIndex.Value]));
+                    navigationParameters.Add("CurrentCompany", JsonConvert.SerializeObject(_currentCompany));
+                    _navigationService.NavigateAsync("ScheduleAvaliable", navigationParameters);
+                }
+                catch (Exception e)
+                {
+
+                }
+            }
+        }
+
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
 
@@ -87,6 +160,7 @@ namespace EasySoccer.Mobile.ViewModels
                 var selectedSoccerPitch = JsonConvert.DeserializeObject<CompanyModel>(jsonObject);
                 if (selectedSoccerPitch != null)
                 {
+                    _currentCompany = selectedSoccerPitch;
                     _companyId = selectedSoccerPitch.Id;
                     Name = selectedSoccerPitch.Name;
                     Image = selectedSoccerPitch.Image;
@@ -95,6 +169,7 @@ namespace EasySoccer.Mobile.ViewModels
                     LoadSoccerPitchsAsync();
                 }
             }
+            LoadSportTypesAsync();
         }
     }
 }

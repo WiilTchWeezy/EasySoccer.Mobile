@@ -39,6 +39,7 @@ namespace EasySoccer.Mobile
             containerRegistry.RegisterForNavigation<Login, LoginViewModel>();
             containerRegistry.RegisterForNavigation<SoccerPitchSearch, SoccerPitchSearchViewModel>();
             containerRegistry.RegisterForNavigation<SoccerPitchInfo, SoccerPitchInfoViewModel>();
+            containerRegistry.RegisterForNavigation<ScheduleAvaliable, ScheduleAvaliableViewModel>();
         }
     }
 }
