@@ -110,10 +110,6 @@ namespace EasySoccer.Mobile.ViewModels
                 {
                     foreach (var item in avaliableSchedulesResponse)
                     {
-                        foreach (var soccerPitchs in item.PossibleSoccerPitchs)
-                        {
-                            soccerPitchs.Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQEumvi_yIGIc2_CNCwIX7lyubcM2OqdshH7d2Lc3kV1lNG6P6f";
-                        }
                         AvaliableSchedules.Add(new AvaliableSchedulesModel(item));
                     }
                 }

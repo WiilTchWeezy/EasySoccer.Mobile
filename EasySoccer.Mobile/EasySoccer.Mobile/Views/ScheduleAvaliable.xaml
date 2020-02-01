@@ -10,53 +10,40 @@
                 <Image Source="{Binding Image}" Aspect="Fill" HeightRequest="150"></Image>
                 <StackLayout Padding="5">
                     <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="Title"></Label>
-                    <Label Text="{Binding City}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                    <Label Text="{Binding City}" FontSize="Small" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
                     <Label Text="{Binding CompleteAddress}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
                 </StackLayout>
             </StackLayout>
-            <CollectionView BackgroundColor="#DCDCDC" ItemsSource="{Binding AvaliableSchedules}" >
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
-                </CollectionView.ItemsLayout>
+            <CollectionView BackgroundColor="#DCDCDC" ItemsSource="{Binding AvaliableSchedules}" ItemSizingStrategy="MeasureAllItems" >
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Frame HasShadow="True" CornerRadius="10" Margin="10" HeightRequest="260" Padding="0" IsClippedToBounds="True">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding SelectSoccerPicthCommand}" CommandParameter="{Binding .}"></TapGestureRecognizer>
-                            </Frame.GestureRecognizers>
-                            <StackLayout Padding="5">
-                                <Label Text="{Binding SelectedDate, StringFormat='{0:dd/MM/yyyy}'}" VerticalOptions="Center" FontSize="Large" FontAttributes="Bold"></Label>
-                                <Label Text="{Binding SelectedHourStartEnd}" VerticalOptions="Center" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
-                                <CollectionView ItemsSource="{Binding PossibleSoccerPitchs}">
-                                    <CollectionView.ItemsLayout>
-                                        <LinearItemsLayout Orientation="Horizontal" />
-                                    </CollectionView.ItemsLayout>
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid Padding="5">
-                                                <Frame HasShadow="True" CornerRadius="10" BorderColor="#161E53" Padding="0" IsClippedToBounds="True">
-                                                    <Grid Margin="0" Padding="0">
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="Auto"></RowDefinition>
-                                                            <RowDefinition Height="*"></RowDefinition>
-                                                        </Grid.RowDefinitions>
-                                                        <Image Source="{Binding Image}" Grid.Row="0" Aspect="Fill"></Image>
-                                                        <StackLayout Grid.Row="1" Padding="5" Spacing="2">
-                                                            <Label Text="{Binding Name}" VerticalOptions="Center" FontSize="Medium" FontAttributes="Bold"></Label>
-                                                            <Label Text="{Binding SportTypeName}" VerticalOptions="Center" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
-                                                            <Label Text="{Binding NumberOfPlayers, StringFormat='Quantidade de jogadores : {0}'}" VerticalOptions="Center" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"/>
-                                                        </StackLayout>
-                                                    </Grid>
-                                                </Frame>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
-                            </StackLayout>
-                        </Frame>
-                        </Grid>
-                     </DataTemplate>
+                        <StackLayout Padding="10">
+                            <Frame HasShadow="True" CornerRadius="10" Padding="0" IsClippedToBounds="True">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectSoccerPicthCommand}" CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
+                                <StackLayout Padding="5">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Text="{Binding SelectedDate, StringFormat='{0:dd/MM/yyyy}'}" VerticalOptions="Center" FontSize="Large" FontAttributes="Bold"></Label>
+                                        <Frame Grid.Column="1" CornerRadius="10" BackgroundColor="#5cb85c" Padding="0" IsVisible="{Binding IsCurrentSchedule}">
+                                            <Label Text="Horário Dísponivel" TextColor="#FFF" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                                        </Frame>
+                                        <Frame Grid.Column="1" CornerRadius="10" BackgroundColor="#f0ad4e" Padding="0" IsVisible="{Binding IsAlternativeSchedule}">
+                                            <Label Text="Horário Alternativo" TextColor="#FFF" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                                        </Frame>
+                                    </Grid>
+                                    <Label Text="{Binding SelectedHourStartEnd}" VerticalOptions="Center" FontSize="Small" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                                    <Picker ItemsSource="{Binding PossibleSoccerPitchNames}" Title="Selecione a Quadra" SelectedIndex="{Binding SelectedIndexPitch}"/>
+                                    <Picker ItemsSource="{Binding SoccerPitchPlansNames}" Title="Selecione o plano" SelectedIndex="{Binding SelectedIndexPlan}"/>
+                                    <Button Text="Realizar agendamento" BackgroundColor="#FF591F" TextColor="#FFF" Margin="0, 5,0,5" />
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
                 </CollectionView.ItemTemplate>
                 <CollectionView.EmptyView>
                     <Grid VerticalOptions="FillAndExpand">
