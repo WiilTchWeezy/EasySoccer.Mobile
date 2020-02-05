@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using EasySoccer.Mobile.API;
 using EasySoccer.Mobile.API.ApiResponses;
+using EasySoccer.Mobile.API.Session;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,8 @@ namespace EasySoccer.Mobile.Models
 
         }
 
-        public AvaliableSchedulesModel(AvaliableSchedulesResponse item)
+        private long companyId = 0;
+        public AvaliableSchedulesModel(AvaliableSchedulesResponse item, long companyId)
         {
             this.PossibleSoccerPitchs = item.PossibleSoccerPitchs;
             this.SelectedDate = item.SelectedDate;
@@ -33,6 +35,7 @@ namespace EasySoccer.Mobile.Models
                 PossibleSoccerPitchNames.Add(soccerPitch.Name);
             }
             MakeScheduleCommand = new DelegateCommand(MakeSchedule);
+            this.companyId = companyId;
         }
 
         public ObservableCollection<string> PossibleSoccerPitchNames { get; set; }
@@ -113,7 +116,17 @@ namespace EasySoccer.Mobile.Models
 
         private void MakeSchedule()
         {
+            try
+            {
+                if (_selectedIndexPitch.HasValue)
+                {
+                    var reservationRespone = ApiClient.Instance.MakeReservationAsync(PossibleSoccerPitchs[_selectedIndexPitch.Value].Id, CurrentUser.Instance.UserId.Value, this.SelectedDate, this.SelectedHourStart, this.SelectedHourEnd, SoccerPitchPlans[this.SelectedIndexPlan.Value].Id, this.companyId).GetAwaiter().GetResult();
+                }
+            }
+            catch (Exception e)
+            {
 
+            }
         }
     }
 }

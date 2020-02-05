@@ -39,7 +39,7 @@
                                     <Label Text="{Binding SelectedHourStartEnd}" VerticalOptions="Center" FontSize="Small" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
                                     <Picker ItemsSource="{Binding PossibleSoccerPitchNames}" Title="Selecione a Quadra" SelectedIndex="{Binding SelectedIndexPitch}"/>
                                     <Picker ItemsSource="{Binding SoccerPitchPlansNames}" Title="Selecione o plano" SelectedIndex="{Binding SelectedIndexPlan}"/>
-                                    <Button Text="Realizar agendamento" BackgroundColor="#FF591F" TextColor="#FFF" Margin="0, 5,0,5" />
+                                    <Button Text="Realizar agendamento" Command="{Binding MakeScheduleCommand}" BackgroundColor="#FF591F" TextColor="#FFF" Margin="0, 5,0,5" />
                                 </StackLayout>
                             </Frame>
                         </StackLayout>

@@ -73,7 +73,7 @@ namespace EasySoccer.Mobile.API
             return response;
         }
 
-        private async Task<TReturn> Post<TReturn, TRequest>(string apiMethod, TRequest request)
+        private async Task<TReturn> Post<TReturn>(string apiMethod, object request)
         {
             TReturn response;
             UserDialogs.Instance.ShowLoading("");
@@ -141,6 +141,20 @@ namespace EasySoccer.Mobile.API
         public async Task<List<SoccerPitchPlanResponse>> GetSoccerPitchPlanBySoccerPitchAsync (long soccerPitchId)
         {
             return await Get<List<SoccerPitchPlanResponse>>("SoccerPitchPlan/getbysoccerpitch?" + GenerateQueryParameters(new { SoccerPitchId = soccerPitchId }));
+        }
+
+        public async Task<SoccerPitchReservationResponse> MakeReservationAsync(long soccerPitchId, Guid userId, DateTime selectedDate, TimeSpan hourStart, TimeSpan hourEnd, int soccerPitchPlanId, long companyId)
+        {
+            return await Post<SoccerPitchReservationResponse>("SoccerPitchReservation/makeschedule", new 
+            {
+                SoccerPitchId= soccerPitchId,
+                UserId = userId,
+                SelectedDate = selectedDate,
+                HourStart = hourStart,
+                HourEnd = hourEnd,
+                SoccerPitchSoccerPitchPlanId = soccerPitchPlanId,
+                SelectedCompany = companyId
+            });
         }
         
     }

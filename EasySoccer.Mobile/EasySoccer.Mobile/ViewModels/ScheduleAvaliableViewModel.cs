@@ -110,7 +110,7 @@ namespace EasySoccer.Mobile.ViewModels
                 {
                     foreach (var item in avaliableSchedulesResponse)
                     {
-                        AvaliableSchedules.Add(new AvaliableSchedulesModel(item));
+                        AvaliableSchedules.Add(new AvaliableSchedulesModel(item, this.companyModel.Id));
                     }
                 }
             }
