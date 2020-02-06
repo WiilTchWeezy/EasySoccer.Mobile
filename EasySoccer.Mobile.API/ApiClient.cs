@@ -143,7 +143,7 @@ namespace EasySoccer.Mobile.API
             return await Get<List<SoccerPitchPlanResponse>>("SoccerPitchPlan/getbysoccerpitch?" + GenerateQueryParameters(new { SoccerPitchId = soccerPitchId }));
         }
 
-        public async Task<SoccerPitchReservationResponse> MakeReservationAsync(long soccerPitchId, Guid userId, DateTime selectedDate, TimeSpan hourStart, TimeSpan hourEnd, int soccerPitchPlanId, long companyId)
+        public async Task<SoccerPitchReservationResponse> MakeReservationAsync(long soccerPitchId, Guid userId, DateTime selectedDate, TimeSpan hourStart, TimeSpan hourEnd, int soccerPitchPlanId)
         {
             return await Post<SoccerPitchReservationResponse>("SoccerPitchReservation/makeschedule", new 
             {
@@ -152,8 +152,7 @@ namespace EasySoccer.Mobile.API
                 SelectedDate = selectedDate,
                 HourStart = hourStart,
                 HourEnd = hourEnd,
-                SoccerPitchSoccerPitchPlanId = soccerPitchPlanId,
-                SelectedCompany = companyId
+                SoccerPitchSoccerPitchPlanId = soccerPitchPlanId
             });
         }
         

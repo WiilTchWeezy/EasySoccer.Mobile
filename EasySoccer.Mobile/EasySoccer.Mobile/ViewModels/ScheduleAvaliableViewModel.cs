@@ -50,9 +50,11 @@ namespace EasySoccer.Mobile.ViewModels
         private DateTime selectedDate = new DateTime();
         private TimeSpan selectedTime = new TimeSpan();
         private CompanyModel companyModel = new CompanyModel();
-        public ScheduleAvaliableViewModel()
+        INavigationService _navigationService;
+        public ScheduleAvaliableViewModel(INavigationService navigationService)
         {
             AvaliableSchedules = new ObservableCollection<AvaliableSchedulesModel>();
+            _navigationService = navigationService;
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)
@@ -110,7 +112,7 @@ namespace EasySoccer.Mobile.ViewModels
                 {
                     foreach (var item in avaliableSchedulesResponse)
                     {
-                        AvaliableSchedules.Add(new AvaliableSchedulesModel(item, this.companyModel.Id));
+                        AvaliableSchedules.Add(new AvaliableSchedulesModel(item, this.companyModel.Id, this._navigationService));
                     }
                 }
             }

@@ -19,7 +19,7 @@ namespace EasySoccer.Mobile.Infra
         public void LogOff(INavigationService navigationService)
         {
             CurrentUser.Instance.LogOff();
-            navigationService.NavigateAsync("Login");
+            navigationService.NavigateAsync("/Login");
         }
     }
 }

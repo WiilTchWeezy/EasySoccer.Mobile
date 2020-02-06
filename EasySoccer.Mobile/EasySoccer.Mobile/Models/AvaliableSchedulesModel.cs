@@ -3,6 +3,7 @@ using EasySoccer.Mobile.API;
 using EasySoccer.Mobile.API.ApiResponses;
 using EasySoccer.Mobile.API.Session;
 using Prism.Commands;
+using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,13 +15,14 @@ namespace EasySoccer.Mobile.Models
 {
     public class AvaliableSchedulesModel : AvaliableSchedulesResponse, INotifyPropertyChanged
     {
-        public AvaliableSchedulesModel()
+        private INavigationService _navigationService;
+        public AvaliableSchedulesModel(INavigationService navigationService)
         {
-
+            _navigationService = navigationService;
         }
 
         private long companyId = 0;
-        public AvaliableSchedulesModel(AvaliableSchedulesResponse item, long companyId)
+        public AvaliableSchedulesModel(AvaliableSchedulesResponse item, long companyId, INavigationService navigationService)
         {
             this.PossibleSoccerPitchs = item.PossibleSoccerPitchs;
             this.SelectedDate = item.SelectedDate;
@@ -36,6 +38,7 @@ namespace EasySoccer.Mobile.Models
             }
             MakeScheduleCommand = new DelegateCommand(MakeSchedule);
             this.companyId = companyId;
+            _navigationService = navigationService;
         }
 
         public ObservableCollection<string> PossibleSoccerPitchNames { get; set; }
@@ -87,6 +90,7 @@ namespace EasySoccer.Mobile.Models
             {
                 if (value != _selectedIndexPlan)
                 {
+                    _selectedIndexPlan = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedIndexPlan)));
                 }
             }
@@ -114,13 +118,18 @@ namespace EasySoccer.Mobile.Models
             }
         }
 
-        private void MakeSchedule()
+        private async void MakeSchedule()
         {
             try
             {
-                if (_selectedIndexPitch.HasValue)
+                if (SelectedIndexPitch.HasValue && SelectedIndexPlan.HasValue)
                 {
-                    var reservationRespone = ApiClient.Instance.MakeReservationAsync(PossibleSoccerPitchs[_selectedIndexPitch.Value].Id, CurrentUser.Instance.UserId.Value, this.SelectedDate, this.SelectedHourStart, this.SelectedHourEnd, SoccerPitchPlans[this.SelectedIndexPlan.Value].Id, this.companyId).GetAwaiter().GetResult();
+                    var reservationRespone = await ApiClient.Instance.MakeReservationAsync(PossibleSoccerPitchs[_selectedIndexPitch.Value].Id, CurrentUser.Instance.UserId.Value, this.SelectedDate, this.SelectedHourStart, this.SelectedHourEnd, SoccerPitchPlans[this.SelectedIndexPlan.Value].Id);
+                    if (reservationRespone != null)
+                    {
+                        UserDialogs.Instance.Alert("Agendamento realizado com sucesso.");
+                        await _navigationService.NavigateAsync("/NavigationPage/SoccerPitchSearch");
+                    }
                 }
             }
             catch (Exception e)
