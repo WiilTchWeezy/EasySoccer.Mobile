@@ -155,6 +155,18 @@ namespace EasySoccer.Mobile.API
                 SoccerPitchSoccerPitchPlanId = soccerPitchPlanId
             });
         }
+
+        public async Task<UserResponse> CreateUserAsync(string name, string phoneNumber, string socialMedia, string email, string password)
+        {
+            return await Post<UserResponse>("User/create", new 
+            {
+                Name = name,
+                PhoneNumber = phoneNumber, 
+                SocialMedia = socialMedia,
+                Email = email,
+                Password = password
+            });
+        }
         
     }
 }

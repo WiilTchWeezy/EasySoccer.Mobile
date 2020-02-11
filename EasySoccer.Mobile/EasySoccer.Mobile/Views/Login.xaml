@@ -10,11 +10,11 @@
         <Frame VerticalOptions="Center" HasShadow="True" BackgroundColor="#DCDCDC" Margin="15">
             <StackLayout>
                 <Image Source="logo.png" HorizontalOptions="Center" Margin="15" />
-                <Entry Placeholder="Usuario" BackgroundColor="Transparent" PlaceholderColor="#FF591F" TextColor="#161E53"/>
-                <Entry Placeholder="Senha" BackgroundColor="Transparent"  PlaceholderColor="#FF591F" TextColor="#161E53"/>   
-                <Button Text="Login" BackgroundColor="#161E53"></Button>
+                <Entry Placeholder="Email" Text="{Binding Email}" BackgroundColor="Transparent" PlaceholderColor="#FF591F" TextColor="#161E53"/>
+                <Entry Placeholder="Senha" Text="{Binding Password}" BackgroundColor="Transparent" IsPassword="True"  PlaceholderColor="#FF591F" TextColor="#161E53"/>
+                <Button Text="Login" BackgroundColor="#161E53" Command="{Binding LoginCommand}"></Button>
                 <Button Text="Facebook" BackgroundColor="#3B5998" Command="{Binding FacebookLoginCommand}"/>
-                <Button Text="Cadastre-se" BackgroundColor="#FF591F" TextColor="#FFF" />
+                <Button Text="Cadastre-se" BackgroundColor="#FF591F" TextColor="#FFF" Command="{Binding RegisterCommand}" />
             </StackLayout>
         </Frame>
     </Grid>
