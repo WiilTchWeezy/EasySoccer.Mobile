@@ -12,3 +12,6 @@
 /EasySoccer.Mobile/EasySoccer.Mobile.iOS/obj
 /EasySoccer.Mobile.API/obj
 /EasySoccer.Mobile.API/bin/Debug/netstandard2.0
+/EasySoccer.Mobile/EasySoccer.Mobile/bin/Release/netstandard2.0
+/EasySoccer.Mobile/EasySoccer.Mobile.Android/bin/Release
+/EasySoccer.Mobile.API/bin/Release/netstandard2.0

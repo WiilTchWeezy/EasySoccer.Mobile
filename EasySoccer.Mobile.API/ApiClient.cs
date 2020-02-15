@@ -57,7 +57,9 @@ namespace EasySoccer.Mobile.API
                 var response = await httpResponse.Content.ReadAsStringAsync();
                 if (string.IsNullOrEmpty(response))
                     throw new ApiException("Ops! Ocorreu um erro.");
-                throw JsonConvert.DeserializeObject<ApiException>(response);
+                var error = JsonConvert.DeserializeObject<ApiError>(response);
+                var apiException = new ApiException(error.message);
+                throw apiException;
             }
         }
 

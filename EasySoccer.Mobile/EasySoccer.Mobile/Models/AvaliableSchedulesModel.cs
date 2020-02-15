@@ -134,7 +134,7 @@ namespace EasySoccer.Mobile.Models
             }
             catch (Exception e)
             {
-
+                UserDialogs.Instance.Alert(e.Message);
             }
         }
     }
