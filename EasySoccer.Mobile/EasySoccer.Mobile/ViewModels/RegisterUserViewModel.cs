@@ -62,6 +62,12 @@ namespace EasySoccer.Mobile.ViewModels
         {
             try
             {
+                if(string.IsNullOrEmpty(Password))
+                    UserDialogs.Instance.Alert("É necessário informar uma senha");
+
+                if (string.IsNullOrEmpty(Email))
+                    UserDialogs.Instance.Alert("É necessário informar um email");
+
                 if (Password.Equals(ConfirmPassword))
                 {
                     var registerResponse = await ApiClient.Instance.CreateUserAsync(Name, Phone, null, Email, Password);
@@ -74,6 +80,8 @@ namespace EasySoccer.Mobile.ViewModels
                         await _navigationService.NavigateAsync("Login", navigationParameters);
                     }
                 }
+                else
+                    UserDialogs.Instance.Alert("O campo senha e confirmar senha são diferentes.");
             }
             catch (Exception e)
             {
