@@ -6,6 +6,7 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace EasySoccer.Mobile.ViewModels
 {
@@ -62,13 +63,8 @@ namespace EasySoccer.Mobile.ViewModels
         {
             try
             {
-                if(string.IsNullOrEmpty(Password))
-                    UserDialogs.Instance.Alert("É necessário informar uma senha");
-
-                if (string.IsNullOrEmpty(Email))
-                    UserDialogs.Instance.Alert("É necessário informar um email");
-
-                if (Password.Equals(ConfirmPassword))
+                var validate = Validate();
+                if (string.IsNullOrEmpty(validate))
                 {
                     var registerResponse = await ApiClient.Instance.CreateUserAsync(Name, Phone, null, Email, Password);
                     if (registerResponse != null)
@@ -81,12 +77,30 @@ namespace EasySoccer.Mobile.ViewModels
                     }
                 }
                 else
-                    UserDialogs.Instance.Alert("O campo senha e confirmar senha são diferentes.");
+                {
+                    UserDialogs.Instance.Alert("Campos inválidos \n" + validate);
+                }
             }
             catch (Exception e)
             {
                 UserDialogs.Instance.Alert(e.Message);
             }
+        }
+
+        private string Validate()
+        {
+            var sb = new StringBuilder();
+            if (string.IsNullOrEmpty(Name))
+                sb.AppendLine("Nome");
+            if (string.IsNullOrEmpty(Email))
+                sb.AppendLine("Email");
+            if (string.IsNullOrEmpty(Password))
+                sb.AppendLine("Senha");
+            if (!string.IsNullOrEmpty(Password) && !Password.Equals(ConfirmPassword))
+            {
+                sb.AppendLine("Senha e a confirmação da senha estão diferentes.");
+            }
+            return sb.ToString();
         }
 
         private void Back()
