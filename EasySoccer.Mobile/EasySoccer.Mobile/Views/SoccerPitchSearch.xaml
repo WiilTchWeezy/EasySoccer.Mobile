@@ -4,7 +4,6 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="EasySoccer.Mobile.Views.SoccerPitchSearch"
-             xmlns:iconize="clr-namespace:Plugin.Iconize;assembly=Plugin.Iconize"
              Visual="Material">
     <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="#DCDCDC">
         <CollectionView ItemsSource="{Binding SoccerPitchs}" Margin="10" >

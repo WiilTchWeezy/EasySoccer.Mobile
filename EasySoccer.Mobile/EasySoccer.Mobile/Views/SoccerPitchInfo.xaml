@@ -10,9 +10,9 @@
             <StackLayout>
                 <Image Source="{Binding Image}" Aspect="Fill" HeightRequest="150"></Image>
                 <StackLayout Padding="5">
-                    <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="Title"></Label>
-                    <Label Text="{Binding City}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
-                    <Label Text="{Binding CompleteAddress}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                    <Label Text="{Binding Name}" Style="{StaticResource gilroyLabel}" FontAttributes="Bold" FontSize="Title"></Label>
+                    <Label Text="{Binding City}" Style="{StaticResource gilroyLightLabel}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                    <Label Text="{Binding CompleteAddress}" Style="{StaticResource gilroyLightLabel}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
                 </StackLayout>
                 <CollectionView ItemsSource="{Binding SoccerPitchs}" Margin="5" BackgroundColor="#DCDCDC" HeightRequest="200">
                     <CollectionView.ItemsLayout>
@@ -29,9 +29,9 @@
                                         </Grid.RowDefinitions>
                                         <Image Source="{Binding Image}" Grid.Row="0" Aspect="Fill" HeightRequest="30"></Image>
                                         <StackLayout Grid.Row="1" Padding="5" Spacing="2">
-                                            <Label Text="{Binding Name}" VerticalOptions="Center" FontSize="Medium" FontAttributes="Bold"></Label>
-                                            <Label Text="{Binding SportTypeName}" VerticalOptions="Center" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
-                                            <Label Text="{Binding NumberOfPlayers, StringFormat='Quantidade de jogadores : {0}'}" VerticalOptions="Center" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"/>
+                                            <Label Text="{Binding Name}" Style="{StaticResource gilroyLabel}" VerticalOptions="Center" FontSize="Medium" FontAttributes="Bold"></Label>
+                                            <Label Text="{Binding SportTypeName}" Style="{StaticResource gilroyLightLabel}" VerticalOptions="Center" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                                            <Label Text="{Binding NumberOfPlayers, StringFormat='Quantidade de jogadores : {0}'}" Style="{StaticResource gilroyLightLabel}" VerticalOptions="Center" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"/>
                                         </StackLayout>
                                     </Grid>
                                 </Frame>
@@ -40,12 +40,12 @@
                     </CollectionView.ItemTemplate>
                     <CollectionView.EmptyView>
                         <Grid VerticalOptions="FillAndExpand">
-                            <Label VerticalOptions="Center" HorizontalOptions="Center" Text="Nenhuma quadra encontrada." TextColor="#4E4E4E"/>
+                            <Label VerticalOptions="Center" HorizontalOptions="Center" Style="{StaticResource gilroyLightLabel}" Text="Nenhuma quadra encontrada." TextColor="#4E4E4E"/>
                         </Grid>
                     </CollectionView.EmptyView>
                 </CollectionView>
                 <StackLayout Margin="5">
-                    <Label Text="Selecione a data e hora que deseja marcar o horário."/>
+                    <Label Style="{StaticResource gilroyLightLabel}" Text="Selecione a data e hora que deseja marcar o horário."/>
                     <Picker ItemsSource="{Binding SportTypesNames}" SelectedIndex="{Binding SelectedSportTypeIndex}" Title="Tipo de esporte"></Picker>
                     <Grid>
                         <Grid.ColumnDefinitions>
