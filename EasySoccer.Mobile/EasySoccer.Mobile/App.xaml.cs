@@ -25,10 +25,8 @@ namespace EasySoccer.Mobile
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            Plugin.Iconize.Iconize.With(new Plugin.Iconize.Fonts.FontAwesomeRegularModule())
-                                  .With(new Plugin.Iconize.Fonts.FontAwesomeSolidModule());
             if (CurrentUser.Instance.IsLoggedIn)
-                await NavigationService.NavigateAsync("/NavigationPage/SoccerPitchSearch");
+                await NavigationService.NavigateAsync("MainPage/NavigationPage/SoccerPitchSearch");
             else
                 await NavigationService.NavigateAsync("Login");
         }
@@ -41,6 +39,7 @@ namespace EasySoccer.Mobile
             containerRegistry.RegisterForNavigation<SoccerPitchInfo, SoccerPitchInfoViewModel>();
             containerRegistry.RegisterForNavigation<ScheduleAvaliable, ScheduleAvaliableViewModel>();
             containerRegistry.RegisterForNavigation<RegisterUser, RegisterUserViewModel>();
+            containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
         }
     }
 }

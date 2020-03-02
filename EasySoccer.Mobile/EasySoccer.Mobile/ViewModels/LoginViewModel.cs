@@ -53,7 +53,7 @@ namespace EasySoccer.Mobile.ViewModels
                     var loginResponse = await ApiClient.Instance.LoginFromFacebook(facebookResponseData.email, facebookResponseData.first_name, facebookResponseData.last_name, facebookResponseData.birthday, facebookResponseData.id);
                     if (loginResponse != null && string.IsNullOrEmpty(loginResponse.Token) == false)
                     {
-                        await _navigationService.NavigateAsync("/NavigationPage/SoccerPitchSearch");
+                        await _navigationService.NavigateAsync("MainPage/NavigationPage/SoccerPitchSearch");
                     }
                 }
             }

@@ -24,7 +24,6 @@ namespace EasySoccer.Mobile.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             global::Xamarin.Forms.FormsMaterial.Init(this, bundle);
-            Plugin.Iconize.Iconize.Init(Resource.Id.toolbar, Resource.Id.sliding_tabs);
             FacebookClientManager.Initialize(this);
             UserDialogs.Init(this);
             LoadApplication(new App(new AndroidInitializer()));
