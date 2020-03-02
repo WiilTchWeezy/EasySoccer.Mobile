@@ -169,6 +169,11 @@ namespace EasySoccer.Mobile.API
                 Password = password
             });
         }
-        
+
+        public async Task<UserResponse> GetUserInfoAsync()
+        {
+            return await Get<UserResponse>("user/getInfo");
+        }
+
     }
 }
