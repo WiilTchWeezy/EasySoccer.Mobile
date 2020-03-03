@@ -32,9 +32,25 @@ namespace EasySoccer.Mobile.ViewModels
             get { return _email; }
             set { SetProperty(ref _email, value); }
         }
+
+        public DelegateCommand UpdateUserCommand { get; set; }
         public UserInfoViewModel()
         {
+            UpdateUserCommand = new DelegateCommand(UpdateUser);
+        }
 
+        private async void UpdateUser()
+        {
+            try
+            {
+                var userResponse = await ApiClient.Instance.UpdateUserInfoAsync(Name, Phone, Email);
+                if (userResponse != null)
+                    UserDialogs.Instance.Alert("Usuário atualizado com sucesso.");
+            }
+            catch (Exception e)
+            {
+                UserDialogs.Instance.Alert(e.Message);
+            }
         }
 
         private async Task LoadUserInfo()

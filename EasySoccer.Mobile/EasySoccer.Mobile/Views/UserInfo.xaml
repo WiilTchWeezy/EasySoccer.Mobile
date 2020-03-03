@@ -11,7 +11,7 @@
                 <Entry Text="{Binding Name}" Placeholder="Nome" Style="{StaticResource gilroyLightEntry}"/>
                 <Entry Text="{Binding Email}" Placeholder="Email" Style="{StaticResource gilroyLightEntry}"/>
                 <Entry Text="{Binding Phone}" Placeholder="Telefone" Style="{StaticResource gilroyLightEntry}"/>
-                <Button Text="Alterar Informações" Style="{StaticResource gilroyLightButtonPrimary}" />
+                <Button Text="Alterar Informações" Style="{StaticResource gilroyLightButtonPrimary}" Command="{Binding UpdateUserCommand}" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

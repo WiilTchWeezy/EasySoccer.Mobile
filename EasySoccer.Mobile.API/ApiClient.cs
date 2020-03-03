@@ -87,6 +87,7 @@ namespace EasySoccer.Mobile.API
             return response;
         }
 
+
         private string GenerateQueryParameters(object parameters)
         {
             NameValueCollection queryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
@@ -173,6 +174,16 @@ namespace EasySoccer.Mobile.API
         public async Task<UserResponse> GetUserInfoAsync()
         {
             return await Get<UserResponse>("user/getInfo");
+        }
+
+        public async Task<UserResponse> UpdateUserInfoAsync(string name, string phoneNumber, string email)
+        {
+            return await Post<UserResponse>("User/patch", new
+            {
+                Name = name,
+                PhoneNumber = phoneNumber,
+                Email = email
+            });
         }
 
     }
