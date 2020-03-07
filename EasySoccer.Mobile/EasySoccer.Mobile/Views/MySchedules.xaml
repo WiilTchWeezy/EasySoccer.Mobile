@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="EasySoccer.Mobile.Views.MySchedules"
+             Visual="Material">
+    <ContentPage.Content>
+        <CollectionView BackgroundColor="#DCDCDC" ItemsSource="{Binding Schedules}" ItemSizingStrategy="MeasureAllItems" >
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10">
+                        <Frame HasShadow="True" CornerRadius="10" Padding="0" IsClippedToBounds="True">
+                            <Grid Margin="0" Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Frame Grid.Column="0"
+                                           CornerRadius="100" 
+                                           HeightRequest="60"
+                                           WidthRequest="60"
+                                           HorizontalOptions="Center"
+                                           Padding="0"
+                                           Margin="5"
+                                           IsClippedToBounds="True">
+                                        <Image Source="{Binding CompanyImage}" Aspect="Fill" VerticalOptions="Center" HorizontalOptions="Center"></Image>
+                                    </Frame>
+                                    <Grid Grid.Column="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Label Text="{Binding CompanyName}" Grid.Row="0" VerticalOptions="Center" Style="{StaticResource gilroyLabel}" VerticalTextAlignment="Center" FontSize="20"/>
+                                        <Label Text="{Binding SoccerPitchName}" Grid.Row="1" Style="{StaticResource gilroyLightLabel}" VerticalTextAlignment="Center" FontSize="Subtitle"/>
+                                    </Grid>
+                                </Grid>
+                                <StackLayout Grid.Row="1" Padding="5" Spacing="2">
+                                    <Label Text="{Binding SelectedHourStartEnd}" Style="{StaticResource gilroyLightLabel}" VerticalOptions="Center" FontSize="Small" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                                </StackLayout>
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Grid VerticalOptions="FillAndExpand">
+                    <Label VerticalOptions="Center" HorizontalOptions="Center" Text="Nenhum complexo encontrado." TextColor="#4E4E4E"/>
+                </Grid>
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </ContentPage.Content>
+</ContentPage>

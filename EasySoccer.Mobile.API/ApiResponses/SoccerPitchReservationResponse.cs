@@ -29,5 +29,9 @@ namespace EasySoccer.Mobile.API.ApiResponses
         public long SoccerPitchSoccerPitchPlanId { get; set; }
 
         public Guid? OringinReservationId { get; set; }
+
+        public string SoccerPitchName { get; set; }
+        public string UserName { get; set; }
+        public string CompanyName { get; set; }
     }
 }

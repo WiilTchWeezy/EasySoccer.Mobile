@@ -186,5 +186,10 @@ namespace EasySoccer.Mobile.API
             });
         }
 
+        public async Task<List<SoccerPitchReservationResponse>> GetUserSchedulesAsync()
+        {
+            return await Get<List<SoccerPitchReservationResponse>>("SoccerPitchReservation/getuserschedules");
+        }
+
     }
 }
