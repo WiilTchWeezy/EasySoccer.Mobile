@@ -47,11 +47,6 @@ namespace EasySoccer.Mobile.ViewModels
                     }
                 }
             }
-            catch (ApiUnauthorizedException)
-            {
-                Application.Instance.LogOff(_navigationService);
-
-            }
             catch (Exception e)
             {
                 UserDialogs.Instance.Alert(e.Message);

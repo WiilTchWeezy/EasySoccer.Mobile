@@ -31,48 +31,81 @@ namespace EasySoccer.Mobile.API
 
         private HttpClient CreateClient()
         {
-            var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri(ApiUrl);
-            httpClient.DefaultRequestHeaders.Clear();
-            if (Preferences.ContainsKey("AuthToken"))
+            try
             {
-                var token = Preferences.Get("AuthToken", String.Empty);
-                httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+                if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+                {
+                    var tConfig = new ToastConfig("Você não esta conectado. Verifique sua conexão com internet.")
+                    {
+                        MessageTextColor = System.Drawing.Color.Yellow,
+                        Duration = TimeSpan.FromSeconds(30)
+                    };
+                    UserDialogs.Instance.Toast(tConfig);
+                }
+                var httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(ApiUrl);
+                httpClient.DefaultRequestHeaders.Clear();
+                if (Preferences.ContainsKey("AuthToken"))
+                {
+                    var token = Preferences.Get("AuthToken", String.Empty);
+                    httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+                }
+                return httpClient;
             }
-            return httpClient;
+            catch (Exception)
+            {
+                UserDialogs.Instance.HideLoading();
+                throw;
+            }
         }
 
         private async Task<T> TreatApiReturn<T>(HttpResponseMessage httpResponse)
         {
-            if (httpResponse.StatusCode == System.Net.HttpStatusCode.OK)
-                return JsonConvert.DeserializeObject<T>(await httpResponse.Content.ReadAsStringAsync());
-            else if (httpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            try
             {
-                UserDialogs.Instance.HideLoading();
-                throw new ApiUnauthorizedException("Ops! Você não está mais autenticado.");
+                if (httpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+                    return JsonConvert.DeserializeObject<T>(await httpResponse.Content.ReadAsStringAsync());
+                else if (httpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    UserDialogs.Instance.HideLoading();
+                    throw new ApiUnauthorizedException("Ops! Você não está mais autenticado.");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    var response = await httpResponse.Content.ReadAsStringAsync();
+                    if (string.IsNullOrEmpty(response))
+                        throw new ApiException("Ops! Ocorreu um erro.");
+                    var error = JsonConvert.DeserializeObject<ApiError>(response);
+                    var apiException = new ApiException(error.message);
+                    throw apiException;
+                }
             }
-            else
+            catch (Exception)
             {
                 UserDialogs.Instance.HideLoading();
-                var response = await httpResponse.Content.ReadAsStringAsync();
-                if (string.IsNullOrEmpty(response))
-                    throw new ApiException("Ops! Ocorreu um erro.");
-                var error = JsonConvert.DeserializeObject<ApiError>(response);
-                var apiException = new ApiException(error.message);
-                throw apiException;
+                throw;
             }
         }
 
         private async Task<T> Get<T>(string apiMethod)
         {
-            T response;
-            UserDialogs.Instance.ShowLoading("");
-            using (var httpClient = CreateClient())
+            try
             {
-                response = await TreatApiReturn<T>(await httpClient.GetAsync(ApiUrl + apiMethod));
+                T response;
+                UserDialogs.Instance.ShowLoading("");
+                using (var httpClient = CreateClient())
+                {
+                    response = await TreatApiReturn<T>(await httpClient.GetAsync(ApiUrl + apiMethod));
+                }
+                UserDialogs.Instance.HideLoading();
+                return response;
             }
-            UserDialogs.Instance.HideLoading();
-            return response;
+            catch (Exception)
+            {
+                UserDialogs.Instance.HideLoading();
+                throw;
+            }
         }
 
         private async Task<TReturn> Post<TReturn>(string apiMethod, object request)
@@ -122,7 +155,8 @@ namespace EasySoccer.Mobile.API
 
         public async Task<List<CompanyResponse>> GetCompaniesAsync()
         {
-            var response = await Get<List<CompanyResponse>>("company/get");
+            var location = await Geolocation.GetLastKnownLocationAsync();
+            var response = await Get<List<CompanyResponse>>("company/get?" + GenerateQueryParameters(new { Longitude = location?.Longitude, Latitude = location?.Latitude }));
             return response;
         }
 
@@ -141,16 +175,16 @@ namespace EasySoccer.Mobile.API
             return await Get<List<AvaliableSchedulesResponse>>("SoccerPitchReservation/getavaliableschedules?" + GenerateQueryParameters(new { CompanyId = companyId, SelectedDate = selectedDate, SportType = sportType }));
         }
 
-        public async Task<List<SoccerPitchPlanResponse>> GetSoccerPitchPlanBySoccerPitchAsync (long soccerPitchId)
+        public async Task<List<SoccerPitchPlanResponse>> GetSoccerPitchPlanBySoccerPitchAsync(long soccerPitchId)
         {
             return await Get<List<SoccerPitchPlanResponse>>("SoccerPitchPlan/getbysoccerpitch?" + GenerateQueryParameters(new { SoccerPitchId = soccerPitchId }));
         }
 
         public async Task<SoccerPitchReservationResponse> MakeReservationAsync(long soccerPitchId, Guid userId, DateTime selectedDate, TimeSpan hourStart, TimeSpan hourEnd, int soccerPitchPlanId)
         {
-            return await Post<SoccerPitchReservationResponse>("SoccerPitchReservation/makeschedule", new 
+            return await Post<SoccerPitchReservationResponse>("SoccerPitchReservation/makeschedule", new
             {
-                SoccerPitchId= soccerPitchId,
+                SoccerPitchId = soccerPitchId,
                 UserId = userId,
                 SelectedDate = selectedDate,
                 HourStart = hourStart,
@@ -161,10 +195,10 @@ namespace EasySoccer.Mobile.API
 
         public async Task<UserResponse> CreateUserAsync(string name, string phoneNumber, string socialMedia, string email, string password)
         {
-            return await Post<UserResponse>("User/create", new 
+            return await Post<UserResponse>("User/create", new
             {
                 Name = name,
-                PhoneNumber = phoneNumber, 
+                PhoneNumber = phoneNumber,
                 SocialMedia = socialMedia,
                 Email = email,
                 Password = password

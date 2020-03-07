@@ -25,10 +25,7 @@ namespace EasySoccer.Mobile
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            if (CurrentUser.Instance.IsLoggedIn)
-                await NavigationService.NavigateAsync("MainPage/NavigationPage/SoccerPitchSearch");
-            else
-                await NavigationService.NavigateAsync("Login");
+            await NavigationService.NavigateAsync("MainPage/NavigationPage/SoccerPitchSearch");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

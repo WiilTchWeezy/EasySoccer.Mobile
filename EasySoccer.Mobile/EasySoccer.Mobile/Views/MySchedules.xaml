@@ -50,7 +50,7 @@
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
                 <Grid VerticalOptions="FillAndExpand">
-                    <Label VerticalOptions="Center" HorizontalOptions="Center" Text="Nenhum complexo encontrado." TextColor="#4E4E4E"/>
+                    <Label VerticalOptions="Center" HorizontalOptions="Center" Text="Você ainda não realizou nenhuma reserva." Style="{StaticResource gilroyLightLabel}" TextColor="#4E4E4E"/>
                 </Grid>
             </CollectionView.EmptyView>
         </CollectionView>
