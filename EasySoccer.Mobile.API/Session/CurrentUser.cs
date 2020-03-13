@@ -47,7 +47,7 @@ namespace EasySoccer.Mobile.API.Session
         {
             get
             {
-                return AuthExpiresDate.HasValue && AuthExpiresDate.Value > DateTime.Now && string.IsNullOrEmpty(AuthToken) == false;
+                return string.IsNullOrEmpty(AuthToken) == false;
             }
         }
 

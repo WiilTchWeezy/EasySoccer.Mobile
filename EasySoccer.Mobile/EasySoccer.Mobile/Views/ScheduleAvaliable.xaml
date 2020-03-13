@@ -9,9 +9,9 @@
             <StackLayout>
                 <Image Source="{Binding Image}" Aspect="Fill" HeightRequest="150"></Image>
                 <StackLayout Padding="5">
-                    <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="Title"></Label>
-                    <Label Text="{Binding City}" FontSize="Small" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
-                    <Label Text="{Binding CompleteAddress}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                    <Label Text="{Binding Name}" Style="{StaticResource gilroyLabel}" FontAttributes="Bold" FontSize="Title"></Label>
+                    <Label Text="{Binding City}" Style="{StaticResource gilroyLightLabel}" FontSize="Small" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                    <Label Text="{Binding CompleteAddress}" Style="{StaticResource gilroyLightLabel}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
                 </StackLayout>
             </StackLayout>
             <CollectionView BackgroundColor="#DCDCDC" ItemsSource="{Binding AvaliableSchedules}" ItemSizingStrategy="MeasureAllItems" >
@@ -28,18 +28,29 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Text="{Binding SelectedDate, StringFormat='{0:dd/MM/yyyy}'}" VerticalOptions="Center" FontSize="Large" FontAttributes="Bold"></Label>
+                                        <Label Grid.Column="0"  Style="{StaticResource gilroyLabel}" Text="{Binding SelectedDate, StringFormat='{0:dd/MM/yyyy}'}" VerticalOptions="Center" FontSize="Large" FontAttributes="Bold"></Label>
                                         <Frame Grid.Column="1" CornerRadius="10" BackgroundColor="#5cb85c" Padding="0" IsVisible="{Binding IsCurrentSchedule}">
-                                            <Label Text="Horário Dísponivel" TextColor="#FFF" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                                            <Label Text="Horário Dísponivel" Style="{StaticResource gilroyLabel}" TextColor="#FFF" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
                                         </Frame>
                                         <Frame Grid.Column="1" CornerRadius="10" BackgroundColor="#f0ad4e" Padding="0" IsVisible="{Binding IsAlternativeSchedule}">
-                                            <Label Text="Horário Alternativo" TextColor="#FFF" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                                            <Label Text="Horário Alternativo" Style="{StaticResource gilroyLabel}" TextColor="#FFF" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
                                         </Frame>
                                     </Grid>
-                                    <Label Text="{Binding SelectedHourStartEnd}" VerticalOptions="Center" FontSize="Small" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
-                                    <Picker ItemsSource="{Binding PossibleSoccerPitchNames}" Title="Selecione a Quadra" SelectedIndex="{Binding SelectedIndexPitch}"/>
-                                    <Picker ItemsSource="{Binding SoccerPitchPlansNames}" Title="Selecione o plano" SelectedIndex="{Binding SelectedIndexPlan}"/>
-                                    <Button Text="Realizar agendamento" Command="{Binding MakeScheduleCommand}" BackgroundColor="#FF591F" TextColor="#FFF" Margin="0, 5,0,5" />
+                                    <Label Text="{Binding SelectedHourStartEnd}" Style="{StaticResource gilroyLightLabel}" VerticalOptions="Center" FontSize="Small" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                                    <Picker ItemsSource="{Binding PossibleSoccerPitchNames}" Style="{StaticResource gilroyLightLabel}" Title="Selecione a Quadra" SelectedIndex="{Binding SelectedIndexPitch}"/>
+                                    <Picker ItemsSource="{Binding SoccerPitchPlansNames}" Style="{StaticResource gilroyLightLabel}" Title="Selecione o plano" SelectedIndex="{Binding SelectedIndexPlan}"/>
+
+                                    <Frame CornerRadius="10" BorderColor="#161E53" IsVisible="{Binding ShowPlanInfo}">
+                                        <Grid >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="&#xf05a;" VerticalTextAlignment="Center" FontSize="16" Style="{StaticResource fontAwesomeLabel}" Grid.Column="0"/>
+                                            <Label Text="{Binding PlanDescription}" VerticalTextAlignment="Center" FontSize="14" Style="{StaticResource gilroyLightLabel}" Grid.Column="1"/>
+                                        </Grid>
+                                    </Frame>
+                                    <Button Text="Realizar agendamento" Style="{StaticResource gilroyLabel}" Command="{Binding MakeScheduleCommand}" BackgroundColor="#FF591F" TextColor="#FFF" Margin="0, 5,0,5" />
                                 </StackLayout>
                             </Frame>
                         </StackLayout>

@@ -1,4 +1,5 @@
-﻿using EasySoccer.Mobile.API;
+﻿using Acr.UserDialogs;
+using EasySoccer.Mobile.API;
 using EasySoccer.Mobile.API.ApiResponses;
 using EasySoccer.Mobile.Models;
 using Newtonsoft.Json;
@@ -105,6 +106,7 @@ namespace EasySoccer.Mobile.ViewModels
         {
             try
             {
+                AvaliableSchedules.Clear();
                 var selectedDateString = this.selectedDate.ToString("yyyy-MM-dd");
                 selectedDateString += " " + this.selectedTime.ToString();
                 var avaliableSchedulesResponse = await ApiClient.Instance.GetAvaliableSchedulesAsync(this.companyModel.Id, selectedDateString, this.sportType.Id);
@@ -116,9 +118,9 @@ namespace EasySoccer.Mobile.ViewModels
                     }
                 }
             }
-            catch (Exception E)
+            catch (Exception e)
             {
-
+                UserDialogs.Instance.Alert(e.Message);
             }
         }
     }

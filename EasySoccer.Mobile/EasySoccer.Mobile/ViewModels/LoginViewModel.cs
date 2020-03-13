@@ -1,9 +1,11 @@
 ﻿using Acr.UserDialogs;
 using EasySoccer.Mobile.API;
+using EasySoccer.Mobile.Infra.Events;
 using EasySoccer.Mobile.Infra.Facebook;
 using Newtonsoft.Json;
 using Plugin.FacebookClient;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
@@ -31,15 +33,18 @@ namespace EasySoccer.Mobile.ViewModels
         }
 
         private INavigationService _navigationService;
+        private IEventAggregator _eventAggregator;
+
         public DelegateCommand FacebookLoginCommand { get; set; }
         public DelegateCommand RegisterCommand { get; set; }
         public DelegateCommand LoginCommand { get; set; }
-        public LoginViewModel(INavigationService navigationService)
+        public LoginViewModel(INavigationService navigationService, IEventAggregator eventAggregator)
         {
             FacebookLoginCommand = new DelegateCommand(FacebookLogin);
             RegisterCommand = new DelegateCommand(Register);
             LoginCommand = new DelegateCommand(Login);
             _navigationService = navigationService;
+            _eventAggregator = eventAggregator;
         }
 
         private async void FacebookLogin()
@@ -53,7 +58,8 @@ namespace EasySoccer.Mobile.ViewModels
                     var loginResponse = await ApiClient.Instance.LoginFromFacebook(facebookResponseData.email, facebookResponseData.first_name, facebookResponseData.last_name, facebookResponseData.birthday, facebookResponseData.id);
                     if (loginResponse != null && string.IsNullOrEmpty(loginResponse.Token) == false)
                     {
-                        await _navigationService.NavigateAsync("MainPage/NavigationPage/SoccerPitchSearch");
+                        _eventAggregator.GetEvent<UserLoggedInEvent>().Publish(true);
+                        await _navigationService.GoBackAsync();
                     }
                 }
             }
@@ -65,7 +71,7 @@ namespace EasySoccer.Mobile.ViewModels
 
         private void Register()
         {
-            _navigationService.NavigateAsync("RegisterUser");
+            _navigationService.NavigateAsync("RegisterUser", useModalNavigation: true);
         }
 
         private async void Login()
@@ -75,7 +81,8 @@ namespace EasySoccer.Mobile.ViewModels
                 var loginResponse = await ApiClient.Instance.LoginAsync(Email, Password);
                 if (loginResponse != null)
                 {
-                    await _navigationService.NavigateAsync("/NavigationPage/SoccerPitchSearch");
+                    _eventAggregator.GetEvent<UserLoggedInEvent>().Publish(true);
+                    await _navigationService.GoBackAsync();
                 }
             }
             catch (Exception e)
@@ -99,6 +106,8 @@ namespace EasySoccer.Mobile.ViewModels
             {
                 Password = parameters.GetValue<string>("Password");
             }
+            if (!string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(Password))
+                Login();
         }
     }
 }

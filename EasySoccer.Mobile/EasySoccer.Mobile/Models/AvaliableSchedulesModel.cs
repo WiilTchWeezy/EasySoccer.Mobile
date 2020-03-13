@@ -60,7 +60,10 @@ namespace EasySoccer.Mobile.Models
                     _selectedIndexPitch = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedIndexPitch)));
                     if (_selectedIndexPitch.HasValue)
+                    {
                         this.LoadPlansAsync(PossibleSoccerPitchs[_selectedIndexPitch.Value].Id);
+                        ShowPlanInfo = false;
+                    }
                 }
             }
         }
@@ -92,6 +95,39 @@ namespace EasySoccer.Mobile.Models
                 {
                     _selectedIndexPlan = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedIndexPlan)));
+                    if(_selectedIndexPlan.HasValue && SoccerPitchPlans.Count > 0 && string.IsNullOrEmpty(SoccerPitchPlans[_selectedIndexPlan.Value]?.Description) == false)
+                    {
+                        PlanDescription = SoccerPitchPlans[_selectedIndexPlan.Value]?.Description;
+                        ShowPlanInfo = true;
+                    }
+                }
+            }
+        }
+
+        private bool _showPlanInfo;
+        public bool ShowPlanInfo
+        {
+            get { return _showPlanInfo; }
+            set
+            {
+                if (value != _showPlanInfo)
+                {
+                    _showPlanInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShowPlanInfo)));
+                }
+            }
+        }
+
+        private string _planDescription;
+        public string PlanDescription
+        {
+            get { return _planDescription; }
+            set
+            {
+                if (value != _planDescription)
+                {
+                    _planDescription = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PlanDescription)));
                 }
             }
         }
@@ -122,14 +158,21 @@ namespace EasySoccer.Mobile.Models
         {
             try
             {
-                if (SelectedIndexPitch.HasValue && SelectedIndexPlan.HasValue)
+                if (CurrentUser.Instance.IsLoggedIn)
                 {
-                    var reservationRespone = await ApiClient.Instance.MakeReservationAsync(PossibleSoccerPitchs[_selectedIndexPitch.Value].Id, CurrentUser.Instance.UserId.Value, this.SelectedDate, this.SelectedHourStart, this.SelectedHourEnd, SoccerPitchPlans[this.SelectedIndexPlan.Value].Id);
-                    if (reservationRespone != null)
+                    if (SelectedIndexPitch.HasValue && SelectedIndexPlan.HasValue)
                     {
-                        UserDialogs.Instance.Alert("Agendamento realizado com sucesso.");
-                        await _navigationService.NavigateAsync("/NavigationPage/SoccerPitchSearch");
+                        var reservationRespone = await ApiClient.Instance.MakeReservationAsync(PossibleSoccerPitchs[_selectedIndexPitch.Value].Id, CurrentUser.Instance.UserId.Value, this.SelectedDate, this.SelectedHourStart, this.SelectedHourEnd, SoccerPitchPlans[this.SelectedIndexPlan.Value].Id);
+                        if (reservationRespone != null)
+                        {
+                            UserDialogs.Instance.Alert("Agendamento realizado com sucesso.");
+                            await _navigationService.GoBackToRootAsync();
+                        }
                     }
+                }
+                else
+                {
+                    await _navigationService.NavigateAsync("Login", useModalNavigation: true);
                 }
             }
             catch (Exception e)
