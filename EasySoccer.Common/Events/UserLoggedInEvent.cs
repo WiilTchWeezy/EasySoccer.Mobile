@@ -1,6 +1,6 @@
 ﻿using Prism.Events;
 
-namespace EasySoccer.Mobile.Infra.Events
+namespace EasySoccer.Common.Events
 {
     public class UserLoggedInEvent : PubSubEvent<bool>
     {

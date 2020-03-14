@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EasySoccer.Common.Events;
+using Prism.Events;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -20,6 +22,8 @@ namespace EasySoccer.Mobile.API.Session
                 return _currentUser;
             }
         }
+
+        private IEventAggregator _eventAggregator;
 
         public DateTime? AuthExpiresDate
         {
@@ -51,6 +55,11 @@ namespace EasySoccer.Mobile.API.Session
             }
         }
 
+        public void SetEventAggregator(IEventAggregator eventAggregator)
+        {
+            _eventAggregator = eventAggregator;
+        }
+
         public Guid? UserId
         {
             get
@@ -71,6 +80,7 @@ namespace EasySoccer.Mobile.API.Session
         {
             Preferences.Remove("AuthToken");
             Preferences.Remove("AuthExpiresDate");
+            _eventAggregator?.GetEvent<UserLoggedInEvent>().Publish(false);
         }
 
         public List<Claim> DecryptToken()

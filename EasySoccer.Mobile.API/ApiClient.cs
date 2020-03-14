@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using EasySoccer.Mobile.API.ApiResponses;
 using EasySoccer.Mobile.API.Infra.Exceptions;
+using EasySoccer.Mobile.API.Session;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -68,6 +69,7 @@ namespace EasySoccer.Mobile.API
                 else if (httpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
                     UserDialogs.Instance.HideLoading();
+                    CurrentUser.Instance.LogOff();
                     throw new ApiUnauthorizedException("Ops! Você não está mais autenticado.");
                 }
                 else

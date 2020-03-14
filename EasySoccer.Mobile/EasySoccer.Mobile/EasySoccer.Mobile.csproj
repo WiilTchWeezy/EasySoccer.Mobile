@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\EasySoccer.Common\EasySoccer.Common.csproj" />
     <ProjectReference Include="..\..\EasySoccer.Mobile.API\EasySoccer.Mobile.API.csproj" />
   </ItemGroup>
 

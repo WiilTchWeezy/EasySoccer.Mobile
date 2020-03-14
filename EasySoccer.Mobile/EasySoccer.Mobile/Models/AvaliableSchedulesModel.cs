@@ -59,7 +59,7 @@ namespace EasySoccer.Mobile.Models
                 {
                     _selectedIndexPitch = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedIndexPitch)));
-                    if (_selectedIndexPitch.HasValue)
+                    if (_selectedIndexPitch.HasValue && _selectedIndexPitch.Value > -1)
                     {
                         this.LoadPlansAsync(PossibleSoccerPitchs[_selectedIndexPitch.Value].Id);
                         ShowPlanInfo = false;
@@ -95,7 +95,7 @@ namespace EasySoccer.Mobile.Models
                 {
                     _selectedIndexPlan = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedIndexPlan)));
-                    if(_selectedIndexPlan.HasValue && SoccerPitchPlans.Count > 0 && string.IsNullOrEmpty(SoccerPitchPlans[_selectedIndexPlan.Value]?.Description) == false)
+                    if(_selectedIndexPlan.HasValue && _selectedIndexPlan.Value > -1 && SoccerPitchPlans.Count > 0 && string.IsNullOrEmpty(SoccerPitchPlans[_selectedIndexPlan.Value]?.Description) == false)
                     {
                         PlanDescription = SoccerPitchPlans[_selectedIndexPlan.Value]?.Description;
                         ShowPlanInfo = true;

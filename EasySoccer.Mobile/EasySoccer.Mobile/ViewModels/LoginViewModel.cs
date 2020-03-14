@@ -1,6 +1,6 @@
 ﻿using Acr.UserDialogs;
+using EasySoccer.Common.Events;
 using EasySoccer.Mobile.API;
-using EasySoccer.Mobile.Infra.Events;
 using EasySoccer.Mobile.Infra.Facebook;
 using Newtonsoft.Json;
 using Plugin.FacebookClient;
@@ -9,9 +9,6 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EasySoccer.Mobile.ViewModels
 {

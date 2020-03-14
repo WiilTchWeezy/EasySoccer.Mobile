@@ -15,3 +15,5 @@
 /EasySoccer.Mobile/EasySoccer.Mobile/bin/Release/netstandard2.0
 /EasySoccer.Mobile/EasySoccer.Mobile.Android/bin/Release
 /EasySoccer.Mobile.API/bin/Release/netstandard2.0
+/EasySoccer.Common/bin
+/EasySoccer.Common/obj

@@ -1,14 +1,11 @@
 ﻿using Acr.UserDialogs;
+using EasySoccer.Common.Events;
 using EasySoccer.Mobile.API.Session;
 using EasySoccer.Mobile.Infra;
-using EasySoccer.Mobile.Infra.Events;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace EasySoccer.Mobile.ViewModels
 {
@@ -26,6 +23,7 @@ namespace EasySoccer.Mobile.ViewModels
             UserLoggedIn = CurrentUser.Instance.IsLoggedIn;
             LoginLogoutText = UserLoggedIn ? "Sair" : "Fazer Login";
             LoginLogoutParameter = UserLoggedIn ? "Logout" : "Login";
+            CurrentUser.Instance.SetEventAggregator(_eventAggregator);
         }
 
         private void NavigatePage(string page)
@@ -56,7 +54,7 @@ namespace EasySoccer.Mobile.ViewModels
 
         private void UserHasLoggedIn(bool payLoad)
         {
-            this.UserLoggedIn = true;
+            this.UserLoggedIn = payLoad;
             LoginLogoutText = UserLoggedIn ? "Sair" : "Fazer Login";
             LoginLogoutParameter = UserLoggedIn ? "Logout" : "Login";
         }
