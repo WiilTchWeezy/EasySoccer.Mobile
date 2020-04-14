@@ -111,7 +111,7 @@ namespace EasySoccer.Mobile.ViewModels
             SportTypes.Clear();
             try
             {
-                var response = await ApiClient.Instance.GetSportTypesAsync();
+                var response = await ApiClient.Instance.GetSportTypesAsync(_companyId);
                 if (response != null && response.Count > 0)
                 {
                     foreach (var item in response)

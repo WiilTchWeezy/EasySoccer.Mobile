@@ -170,9 +170,9 @@ namespace EasySoccer.Mobile.API
             return await Get<List<SoccerPitchResponse>>("soccerpitch/getbycompanyid?" + GenerateQueryParameters(new { Page = 1, PageSize = 99, CompanyId = companyId }));
         }
 
-        public async Task<List<SportTypeResponse>> GetSportTypesAsync()
+        public async Task<List<SportTypeResponse>> GetSportTypesAsync(long companyId)
         {
-            return await Get<List<SportTypeResponse>>("soccerpitch/getsporttypes");
+            return await Get<List<SportTypeResponse>>("soccerpitch/getsporttypes?" + GenerateQueryParameters(new { companyId = companyId }));
         }
 
         public async Task<List<AvaliableSchedulesResponse>> GetAvaliableSchedulesAsync(long companyId, string selectedDate, int sportType)
