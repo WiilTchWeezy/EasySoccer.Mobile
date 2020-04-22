@@ -49,7 +49,7 @@ namespace EasySoccer.Mobile.ViewModels
         private long _companyId = 0;
         private SportTypeResponse sportType = new SportTypeResponse();
         private DateTime selectedDate = new DateTime();
-        private TimeSpan selectedTime = new TimeSpan();
+        private string selectedTime = string.Empty;
         private CompanyModel companyModel = new CompanyModel();
         INavigationService _navigationService;
         public ScheduleAvaliableViewModel(INavigationService navigationService)
@@ -89,7 +89,7 @@ namespace EasySoccer.Mobile.ViewModels
             if (parameters.ContainsKey("SelectedDate"))
                 this.selectedDate = parameters.GetValue<DateTime>("SelectedDate");
             if (parameters.ContainsKey("SelectedTime"))
-                this.selectedTime = parameters.GetValue<TimeSpan>("SelectedTime");
+                this.selectedTime = parameters.GetValue<string>("SelectedTime");
             if (parameters.ContainsKey("CurrentCompany"))
             {
                 var jsonObject = parameters.GetValue<string>("CurrentCompany");

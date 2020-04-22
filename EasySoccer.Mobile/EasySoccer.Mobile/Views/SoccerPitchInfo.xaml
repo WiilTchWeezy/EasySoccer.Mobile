@@ -53,7 +53,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <DatePicker Date="{Binding SelectedDate}" Grid.Column="0"></DatePicker>
-                        <TimePicker Time="{Binding SelectedTime}" Grid.Column="1"></TimePicker>
+                        <Picker ItemsSource="{Binding CompanySchedules}" SelectedIndex="{Binding SelectedIndexTime}" Grid.Column="1"></Picker>
                     </Grid>
                     <Button Text="Verificar disponibilidade" TextColor="#FFF" BackgroundColor="#161E53" Command="{Binding CheckScheduleAvaliableCommand}"></Button>
                 </StackLayout>

@@ -49,7 +49,13 @@ namespace EasySoccer.Mobile.ViewModels
         public DateTime SelectedDate
         {
             get { return _selectedDate; }
-            set { SetProperty(ref _selectedDate, value); }
+            set
+            {
+                if (SetProperty(ref _selectedDate, value))
+                {
+                    this.LoadCompanySchedulesAsync(this._selectedDate);
+                }
+            }
         }
 
         private TimeSpan _selectedTime;
@@ -66,12 +72,21 @@ namespace EasySoccer.Mobile.ViewModels
             set { SetProperty(ref _selectedSportTypeIndex, value); }
         }
 
+        private int? _selectedIndexTime = null;
+        public int? SelectedIndexTime
+        {
+            get { return _selectedIndexTime; }
+            set { SetProperty(ref _selectedIndexTime, value); }
+        }
+
         private long _companyId = 0;
         private CompanyModel _currentCompany;
 
         public ObservableCollection<SoccerPitchResponse> SoccerPitchs { get; set; }
         public List<SportTypeResponse> SportTypes { get; set; }
         public ObservableCollection<string> SportTypesNames { get; set; }
+
+        public ObservableCollection<string> CompanySchedules { get; set; }
 
         public DelegateCommand CheckScheduleAvaliableCommand { get; set; }
 
@@ -81,6 +96,7 @@ namespace EasySoccer.Mobile.ViewModels
             SoccerPitchs = new ObservableCollection<SoccerPitchResponse>();
             SportTypes = new List<SportTypeResponse>();
             SportTypesNames = new ObservableCollection<string>();
+            CompanySchedules = new ObservableCollection<string>();
             CheckScheduleAvaliableCommand = new DelegateCommand(CheckScheduleAvaliable);
             _navigationService = navigationService;
         }
@@ -127,15 +143,35 @@ namespace EasySoccer.Mobile.ViewModels
             }
         }
 
+        private async Task LoadCompanySchedulesAsync(DateTime selectedDate)
+        {
+            try
+            {
+                CompanySchedules.Clear();
+                var response = await ApiClient.Instance.GetCompanySchedulesAsync((int)_companyId, (int)selectedDate.DayOfWeek);
+                if (response != null && response.Data != null && response.Data.Count > 0)
+                {
+                    foreach (var item in response.Data)
+                    {
+                        CompanySchedules.Add(item);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                UserDialogs.Instance.Alert(e.Message);
+            }
+        }
+
         private void CheckScheduleAvaliable()
         {
-            if (SelectedSportTypeIndex.HasValue)
+            if (SelectedSportTypeIndex.HasValue && SelectedIndexTime.HasValue)
             {
                 try
                 {
                     var navigationParameters = new NavigationParameters();
                     navigationParameters.Add(nameof(SelectedDate), SelectedDate);
-                    navigationParameters.Add(nameof(SelectedTime), SelectedTime);
+                    navigationParameters.Add("SelectedTime", CompanySchedules[SelectedIndexTime.Value]);
                     navigationParameters.Add("SelectedSportType", JsonConvert.SerializeObject(SportTypes[SelectedSportTypeIndex.Value]));
                     navigationParameters.Add("CurrentCompany", JsonConvert.SerializeObject(_currentCompany));
                     _navigationService.NavigateAsync("ScheduleAvaliable", navigationParameters);
@@ -169,6 +205,7 @@ namespace EasySoccer.Mobile.ViewModels
                     LoadSoccerPitchsAsync();
                 }
             }
+            LoadCompanySchedulesAsync(this.SelectedDate);
             LoadSportTypesAsync();
         }
     }
