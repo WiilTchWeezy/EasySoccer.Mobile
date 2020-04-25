@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using EasySoccer.Mobile.API;
 using EasySoccer.Mobile.API.ApiResponses;
+using EasySoccer.Mobile.API.Infra.Exceptions;
 using EasySoccer.Mobile.API.Session;
 using Prism.Commands;
 using Prism.Navigation;
@@ -174,6 +175,11 @@ namespace EasySoccer.Mobile.Models
                 {
                     await _navigationService.NavigateAsync("Login", useModalNavigation: true);
                 }
+            }
+            catch(ApiUnauthorizedException uae)
+            {
+                UserDialogs.Instance.Alert("Você não esta mais autenticado.");
+                await _navigationService.NavigateAsync("Login", useModalNavigation: true);
             }
             catch (Exception e)
             {

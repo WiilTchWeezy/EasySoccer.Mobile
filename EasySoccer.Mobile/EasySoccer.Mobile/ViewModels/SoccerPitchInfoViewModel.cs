@@ -79,6 +79,13 @@ namespace EasySoccer.Mobile.ViewModels
             set { SetProperty(ref _selectedIndexTime, value); }
         }
 
+        private DateTime _minimunDate = DateTime.Now;
+        public DateTime MinimunDate
+        {
+            get { return _minimunDate; }
+            set { SetProperty(ref _minimunDate, value); }
+        }
+
         private long _companyId = 0;
         private CompanyModel _currentCompany;
 
@@ -153,7 +160,17 @@ namespace EasySoccer.Mobile.ViewModels
                 {
                     foreach (var item in response.Data)
                     {
-                        CompanySchedules.Add(item);
+                        if (selectedDate.Date == DateTime.Now.Date)
+                        {
+                            TimeSpan companyHour = TimeSpan.Zero;
+                            if (TimeSpan.TryParse(item, out companyHour))
+                            {
+                                if (companyHour > DateTime.Now.TimeOfDay)
+                                    CompanySchedules.Add(item);
+                            }
+                        }
+                        else
+                            CompanySchedules.Add(item);
                     }
                 }
             }

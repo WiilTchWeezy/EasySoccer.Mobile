@@ -46,16 +46,16 @@
                 </CollectionView>
                 <StackLayout Margin="5">
                     <Label Style="{StaticResource gilroyLightLabel}" Text="Selecione a data e hora que deseja marcar o horário."/>
-                    <Picker ItemsSource="{Binding SportTypesNames}" SelectedIndex="{Binding SelectedSportTypeIndex}" Title="Tipo de esporte"></Picker>
+                    <Picker ItemsSource="{Binding SportTypesNames}" SelectedIndex="{Binding SelectedSportTypeIndex}" FontFamily="Gilroy-Light.otf#Gilroy-Light" Title="Tipo de esporte"></Picker>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <DatePicker Date="{Binding SelectedDate}" Grid.Column="0"></DatePicker>
-                        <Picker ItemsSource="{Binding CompanySchedules}" SelectedIndex="{Binding SelectedIndexTime}" Grid.Column="1"></Picker>
+                        <DatePicker Date="{Binding SelectedDate}" MinimumDate="{Binding MinimunDate}" Grid.Column="0" FontFamily="Gilroy-Light.otf#Gilroy-Light" ></DatePicker>
+                        <Picker ItemsSource="{Binding CompanySchedules}" Title="Horários" FontFamily="Gilroy-Light.otf#Gilroy-Light" SelectedIndex="{Binding SelectedIndexTime}" Grid.Column="1"></Picker>
                     </Grid>
-                    <Button Text="Verificar disponibilidade" TextColor="#FFF" BackgroundColor="#161E53" Command="{Binding CheckScheduleAvaliableCommand}"></Button>
+                    <Button Text="Verificar disponibilidade" FontFamily="Gilroy-Light.otf#Gilroy-Light" TextColor="#FFF" BackgroundColor="#161E53" Command="{Binding CheckScheduleAvaliableCommand}"></Button>
                 </StackLayout>
             </StackLayout>
         </ScrollView>
