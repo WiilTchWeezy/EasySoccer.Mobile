@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using EasySoccer.Mobile.API;
 using EasySoccer.Mobile.API.ApiResponses;
+using EasySoccer.Mobile.Infra;
 using EasySoccer.Mobile.Models;
 using Newtonsoft.Json;
 using Prism.Commands;
@@ -118,7 +119,7 @@ namespace EasySoccer.Mobile.ViewModels
                 {
                     foreach (var item in response)
                     {
-                        item.Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQEumvi_yIGIc2_CNCwIX7lyubcM2OqdshH7d2Lc3kV1lNG6P6f";
+                        item.Image = Application.Instance.GetImage(item.ImageName, Infra.Enums.BlobContainerEnum.SoccerPitch);
                         SoccerPitchs.Add(item);
                     }
                 }

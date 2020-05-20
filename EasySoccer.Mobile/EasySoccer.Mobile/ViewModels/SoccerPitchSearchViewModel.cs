@@ -40,7 +40,6 @@ namespace EasySoccer.Mobile.ViewModels
                 {
                     foreach (var item in companiesResponse)
                     {
-                        item.Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQjne-aTNHMNq_X8tpP-7G-T1OsPEsJ7GubYn8htIMP-3L0sv3z";
                         var companyModel = new CompanyModel(item);
                         companyModel.SelectSoccerPicthCommand = this.SelectSoccerPicthCommand;
                         SoccerPitchs.Add(companyModel);

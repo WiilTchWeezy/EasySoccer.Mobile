@@ -10,5 +10,7 @@
         public int SportTypeId { get; set; }
         public string SportTypeName { get; set; }
         public string Image { get; set; }
+
+        public string ImageName { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using EasySoccer.Mobile.API.ApiResponses;
+using EasySoccer.Mobile.Infra;
 using Prism.Commands;
 
 namespace EasySoccer.Mobile.Models
@@ -23,6 +24,7 @@ namespace EasySoccer.Mobile.Models
             this.Longitude = baseItem.Longitude;
             this.Name = baseItem.Name;
             this.WorkOnHoliDays = baseItem.WorkOnHoliDays;
+            this.Image = Application.Instance.GetImage(this.Logo, Infra.Enums.BlobContainerEnum.Company);
         }
         public CompanyModel()
         {
