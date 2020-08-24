@@ -7,5 +7,6 @@
         public string last_name { get; set; }
         public string birthday { get; set; }
         public string id { get; set; }
+        public string mobile_phone { get; set; }
     }
 }

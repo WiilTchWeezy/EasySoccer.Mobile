@@ -29,6 +29,7 @@ namespace EasySoccer.Mobile.API
         }
 
         const string ApiUrl = "https://apieasysoccer.azurewebsites.net/api/";
+        //const string ApiUrl = "http://localhost:56284/api/";
 
         private HttpClient CreateClient()
         {
@@ -198,13 +199,12 @@ namespace EasySoccer.Mobile.API
             });
         }
 
-        public async Task<UserResponse> CreateUserAsync(string name, string phoneNumber, string socialMedia, string email, string password)
+        public async Task<UserResponse> CreateUserAsync(string name, string phoneNumber, string email, string password)
         {
-            return await Post<UserResponse>("User/create", new
+            return await Post<UserResponse>("User/createUser", new
             {
                 Name = name,
                 PhoneNumber = phoneNumber,
-                SocialMedia = socialMedia,
                 Email = email,
                 Password = password
             });

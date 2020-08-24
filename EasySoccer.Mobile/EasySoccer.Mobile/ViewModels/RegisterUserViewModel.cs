@@ -66,7 +66,7 @@ namespace EasySoccer.Mobile.ViewModels
                 var validate = Validate();
                 if (string.IsNullOrEmpty(validate))
                 {
-                    var registerResponse = await ApiClient.Instance.CreateUserAsync(Name, Phone, null, Email, Password);
+                    var registerResponse = await ApiClient.Instance.CreateUserAsync(Name, Phone, Email, Password);
                     if (registerResponse != null)
                     {
                         UserDialogs.Instance.Alert("Usuário cadastrado com sucesso!");
