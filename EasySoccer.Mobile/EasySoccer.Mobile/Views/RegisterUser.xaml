@@ -2,17 +2,22 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
+             xmlns:behaviorPack="clr-namespace:Xamarin.Forms.BehaviorValidationPack;assembly=Xamarin.Forms.BehaviorValidationPack"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="EasySoccer.Mobile.Views.RegisterUser"
              Visual="Material">
     <ContentPage.Content>
         <StackLayout Padding="10">
             <Image Source="logo.png" Margin="10, 20, 10, 10"></Image>
-            <Entry Placeholder="Nome" Text="{Binding Name}" />
-            <Entry Placeholder="Email" Text="{Binding Email}" />
-            <Entry Placeholder="Telefone" Text="{Binding Phone}"/>
-            <Entry Placeholder="Senha" Text="{Binding Password}" IsPassword="True" />
-            <Entry Placeholder="Confirmação da senha" Text="{Binding ConfirmPassword}" IsPassword="True" />
+            <Entry Placeholder="Nome" Text="{Binding Name}" Style="{StaticResource gilroyLightEntry}" />
+            <Entry Placeholder="Email" Text="{Binding Email}" Style="{StaticResource gilroyLightEntry}" />
+            <Entry Placeholder="Telefone" Text="{Binding Phone}" Style="{StaticResource gilroyLightEntry}">
+                <Entry.Behaviors>
+                    <behaviorPack:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
+                </Entry.Behaviors>
+            </Entry>
+            <Entry Placeholder="Senha" Text="{Binding Password}" IsPassword="True" Style="{StaticResource gilroyLightEntry}" />
+            <Entry Placeholder="Confirmação da senha" Text="{Binding ConfirmPassword}" IsPassword="True"  Style="{StaticResource gilroyLightEntry}" />
             <Button Text="Cadastrar-se" BackgroundColor="#FF591F" TextColor="#FFF" Command="{Binding RegisterCommand}" />
             <Button Text="Voltar" BackgroundColor="#161E53" TextColor="#FFF" Command="{Binding BackCommand}" />
         </StackLayout>

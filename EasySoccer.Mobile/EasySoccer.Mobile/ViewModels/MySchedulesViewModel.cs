@@ -36,6 +36,7 @@ namespace EasySoccer.Mobile.ViewModels
                 var response = await ApiClient.Instance.GetUserSchedulesAsync();
                 if(response != null && response.Count > 0)
                 {
+                    Schedules.Clear();
                     foreach (var item in response)
                     {
                         Schedules.Add(new SoccerPitchReservationModel(item));

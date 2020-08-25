@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
+             xmlns:behaviorPack="clr-namespace:Xamarin.Forms.BehaviorValidationPack;assembly=Xamarin.Forms.BehaviorValidationPack"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="EasySoccer.Mobile.Views.UserInfo"
              Visual="Material">
@@ -10,7 +11,11 @@
             <StackLayout Padding="10">
                 <Entry Text="{Binding Name}" Placeholder="Nome" Style="{StaticResource gilroyLightEntry}"/>
                 <Entry Text="{Binding Email}" Placeholder="Email" Style="{StaticResource gilroyLightEntry}"/>
-                <Entry Text="{Binding Phone}" Placeholder="Telefone" Style="{StaticResource gilroyLightEntry}"/>
+                <Entry Text="{Binding Phone}" Placeholder="Telefone" Style="{StaticResource gilroyLightEntry}">
+                    <Entry.Behaviors>
+                        <behaviorPack:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
+                    </Entry.Behaviors>
+                </Entry>
                 <Button Text="Alterar Informações" Style="{StaticResource gilroyLightButtonPrimary}" Command="{Binding UpdateUserCommand}" />
             </StackLayout>
         </ScrollView>

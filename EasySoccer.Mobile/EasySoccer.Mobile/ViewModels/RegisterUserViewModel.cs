@@ -94,6 +94,8 @@ namespace EasySoccer.Mobile.ViewModels
                 sb.AppendLine("Nome");
             if (string.IsNullOrEmpty(Email))
                 sb.AppendLine("Email");
+            if (string.IsNullOrEmpty(Phone))
+                sb.AppendLine("Telefone");
             if (string.IsNullOrEmpty(Password))
                 sb.AppendLine("Senha");
             if (!string.IsNullOrEmpty(Password) && !Password.Equals(ConfirmPassword))
