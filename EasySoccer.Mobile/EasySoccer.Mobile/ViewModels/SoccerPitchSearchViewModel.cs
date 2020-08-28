@@ -22,11 +22,14 @@ namespace EasySoccer.Mobile.ViewModels
 
         public DelegateCommand<CompanyModel> SelectSoccerPicthCommand { get; set; }
 
+        public DelegateCommand FilterCommand { get; set; }
+
         private INavigationService _navigationService;
         public SoccerPitchSearchViewModel(INavigationService navigationService)
         {
             SoccerPitchs = new ObservableCollection<CompanyModel>();
             SelectSoccerPicthCommand = new DelegateCommand<CompanyModel>(SelectSoccerPicth);
+            FilterCommand = new DelegateCommand(FilterAsync);
             _navigationService = navigationService;
         }
 
@@ -58,6 +61,11 @@ namespace EasySoccer.Mobile.ViewModels
             selectedSoccerPitch.SelectSoccerPicthCommand = null;
             navigationParameters.Add("selectedSoccerPitch", JsonConvert.SerializeObject(selectedSoccerPitch));
             _navigationService.NavigateAsync("SoccerPitchInfo", navigationParameters);
+        }
+
+        public void FilterAsync()
+        {
+            _navigationService.NavigateAsync("SoccerPitchFilter");
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)

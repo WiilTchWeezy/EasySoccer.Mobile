@@ -5,6 +5,12 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="EasySoccer.Mobile.Views.SoccerPitchSearch"
              Visual="Material">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="ic_search.png"
+                 Order="Primary"
+                 Priority="0"
+                     Command="{Binding FilterCommand}"/>
+    </ContentPage.ToolbarItems>
     <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="#DCDCDC">
         <CollectionView ItemsSource="{Binding SoccerPitchs}" Margin="10" >
             <CollectionView.ItemsLayout>
