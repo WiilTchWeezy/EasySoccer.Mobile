@@ -156,12 +156,13 @@ namespace EasySoccer.Mobile.API
             return response;
         }
 
-        public async Task<List<CompanyResponse>> GetCompaniesAsync()
+        public async Task<List<CompanyResponse>> GetCompaniesAsync(string filterText, string orderField, string orderDirection)
         {
             var location = await Geolocation.GetLastKnownLocationAsync();
             string parameters = String.Empty;
             if (location != null)
                 parameters = GenerateQueryParameters(new { location?.Longitude, location?.Latitude });
+            parameters += GenerateQueryParameters(new { Name = filterText, OrderField = orderField, OrderDirection = orderDirection });
             var response = await Get<List<CompanyResponse>>("company/get?" + parameters);
             return response;
         }

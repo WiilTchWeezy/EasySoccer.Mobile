@@ -51,9 +51,11 @@ namespace EasySoccer.Mobile.ViewModels
         private void Filter()
         {
             var navigationParameters = new NavigationParameters();
-            navigationParameters.Add("OrderField", OrderFields.Where(x => x.IsChecked).FirstOrDefault()?.Value);
-            navigationParameters.Add("OrderDirection", OrderPositions.Where(x => x.IsChecked).FirstOrDefault()?.Value);
-            navigationParameters.Add("FilterText", FilterText);
+            var orderField = OrderFields.Where(x => x.IsChecked).FirstOrDefault()?.Value != null ? OrderFields.Where(x => x.IsChecked).FirstOrDefault()?.Value : String.Empty;
+            var orderDirection = OrderPositions.Where(x => x.IsChecked).FirstOrDefault()?.Value != null ? OrderPositions.Where(x => x.IsChecked).FirstOrDefault()?.Value : String.Empty;
+            navigationParameters.Add("OrderField", orderField);
+            navigationParameters.Add("OrderDirection", orderDirection);
+            navigationParameters.Add("FilterText", FilterText == null ? "" : FilterText);
             _navigationService.GoBackAsync(navigationParameters);
         }
 

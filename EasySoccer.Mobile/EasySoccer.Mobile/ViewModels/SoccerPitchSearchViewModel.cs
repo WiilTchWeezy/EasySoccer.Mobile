@@ -33,12 +33,12 @@ namespace EasySoccer.Mobile.ViewModels
             _navigationService = navigationService;
         }
 
-        private async Task LoadDataAsync()
+        private async Task LoadDataAsync(string filterText, string orderField, string orderDirection)
         {
             try
             {
                 SoccerPitchs.Clear();
-                var companiesResponse = await ApiClient.Instance.GetCompaniesAsync();
+                var companiesResponse = await ApiClient.Instance.GetCompaniesAsync(filterText, orderField, orderDirection);
                 if (companiesResponse != null && companiesResponse.Count > 0)
                 {
                     foreach (var item in companiesResponse)
@@ -75,7 +75,16 @@ namespace EasySoccer.Mobile.ViewModels
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            LoadDataAsync();
+            string orderField = string.Empty;
+            string orderDirection = string.Empty;
+            string filterText = string.Empty;
+            if (parameters.ContainsKey("FilterText"))
+                filterText = parameters.GetValue<string>("FilterText");
+            if (parameters.ContainsKey("OrderField"))
+                orderField = parameters.GetValue<string>("OrderField");
+            if (parameters.ContainsKey("OrderDirection"))
+                orderDirection = parameters.GetValue<string>("OrderDirection");
+            LoadDataAsync(filterText, orderField, orderDirection);
         }
     }
 }
