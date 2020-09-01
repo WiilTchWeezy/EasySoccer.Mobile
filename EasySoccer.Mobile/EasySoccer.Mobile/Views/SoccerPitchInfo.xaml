@@ -3,8 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="EasySoccer.Mobile.Views.SoccerPitchInfo"
-             Title="{Binding Name}">
+             x:Class="EasySoccer.Mobile.Views.SoccerPitchInfo">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="ic_calendar_today.png"
+                 Order="Primary"
+                 Priority="0"
+                     Command="{Binding OpenSheduleCommand}"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>

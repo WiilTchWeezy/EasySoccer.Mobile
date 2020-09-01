@@ -97,6 +97,7 @@ namespace EasySoccer.Mobile.ViewModels
         public ObservableCollection<string> CompanySchedules { get; set; }
 
         public DelegateCommand CheckScheduleAvaliableCommand { get; set; }
+        public DelegateCommand OpenSheduleCommand { get; set; }
 
         private INavigationService _navigationService;
         public SoccerPitchInfoViewModel(INavigationService navigationService)
@@ -106,7 +107,15 @@ namespace EasySoccer.Mobile.ViewModels
             SportTypesNames = new ObservableCollection<string>();
             CompanySchedules = new ObservableCollection<string>();
             CheckScheduleAvaliableCommand = new DelegateCommand(CheckScheduleAvaliable);
+            OpenSheduleCommand = new DelegateCommand(NavigateToSchedule);
             _navigationService = navigationService;
+        }
+
+        private void NavigateToSchedule()
+        {
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add("CompanyId", _companyId);
+            _navigationService.NavigateAsync("SoccerPitchSchedule", navigationParameters);
         }
 
         private async Task LoadSoccerPitchsAsync()

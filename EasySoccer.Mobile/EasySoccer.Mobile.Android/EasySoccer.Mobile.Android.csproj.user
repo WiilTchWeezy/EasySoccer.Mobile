@@ -3,6 +3,6 @@
   <PropertyGroup>
     <SelectedDevice>Genymotion Samsung Galaxy S7</SelectedDevice>
     <DefaultDevice>Android_Accelerated_x86_Nougat</DefaultDevice>
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
 </Project>
