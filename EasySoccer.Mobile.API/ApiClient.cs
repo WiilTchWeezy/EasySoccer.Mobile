@@ -236,5 +236,9 @@ namespace EasySoccer.Mobile.API
             return await Get<CompanySchedulesResponse>("CompanySchedule/get?" + GenerateQueryParameters(new { companyId, dayOfWeek }));
         }
 
+        public async Task<List<CompanySchedules>> GetCompanyReservationSchedulesAsync(int companyId, DateTime selectedDate)
+        {
+            return await Get<List<CompanySchedules>>("SoccerPitchReservation/getschedules?" + GenerateQueryParameters(new { companyId, selectedDate }));
+        }
     }
 }

@@ -1,82 +1,71 @@
-﻿using EasySoccer.Mobile.API.ApiResponses;
+﻿using Acr.UserDialogs;
+using EasySoccer.Mobile.API;
+using EasySoccer.Mobile.API.ApiResponses;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EasySoccer.Mobile.ViewModels
 {
-    public class SoccerPitchScheduleViewModel : BindableBase
+    public class SoccerPitchScheduleViewModel : BindableBase, INavigationAware
     {
         public ObservableCollection<CompanySchedules> CompanySchedules { get; set; }
+
+        private DateTime _selectedDate;
+        public DateTime SelectedDate
+        {
+            get { return _selectedDate; }
+            set
+            {
+                if (SetProperty(ref _selectedDate, value))
+                    LoadDataAsync();
+            }
+        }
+
+        private int _companyId = 0;
         public SoccerPitchScheduleViewModel()
         {
             CompanySchedules = new ObservableCollection<CompanySchedules>();
-            InitEvents();
+            SelectedDate = DateTime.Now;
         }
 
-        private void InitEvents()
+        private async Task LoadDataAsync()
         {
-            var events = new ObservableCollection<CompanySchedulesEvent>();
-            events.Add(new CompanySchedulesEvent 
+            try
             {
-                SelectedHour = "20:00 - 21:00",
-                SoccerPitch = "Quadra 2",
-                UserName = "Tarcisio Vitor"
-            });
-            events.Add(new CompanySchedulesEvent
+                var response = await ApiClient.Instance.GetCompanyReservationSchedulesAsync(_companyId, SelectedDate);
+                if (response != null && response.Count > 0)
+                {
+                    CompanySchedules.Clear();
+                    foreach (var item in response)
+                    {
+                        CompanySchedules.Add(item);
+                    }
+                }
+            }
+            catch (Exception e)
             {
-                SelectedHour = "20:00 - 21:00",
-                SoccerPitch = "Quadra 3",
-                UserName = "Tarcisio"
-            });
-            events.Add(new CompanySchedulesEvent
+                UserDialogs.Instance.Alert(e.Message);
+            }
+        }
+
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+
+        }
+
+        public void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("CompanyId"))
             {
-                SelectedHour = "20:00 - 21:00",
-                SoccerPitch = "Quadra 5",
-                UserName = "Sergio Vitor"
-            });
-            events.Add(new CompanySchedulesEvent
-            {
-                SelectedHour = "20:00 - 21:00",
-                SoccerPitch = "Quadra 9",
-                UserName = "Tarcisio Vitor"
-            });
-            events.Add(new CompanySchedulesEvent
-            {
-                SelectedHour = "13:00 - 21:00",
-                SoccerPitch = "Quadra 9",
-                UserName = "Tarcisio Vitor"
-            });
-            CompanySchedules.Add(new API.ApiResponses.CompanySchedules 
-            {
-                Hour = "12:00",
-                Events = events
-            });
-            CompanySchedules.Add(new API.ApiResponses.CompanySchedules
-            {
-                Hour = "13:00",
-                Events = events
-            });
-            CompanySchedules.Add(new API.ApiResponses.CompanySchedules
-            {
-                Hour = "14:00",
-                Events = events
-            });
-            CompanySchedules.Add(new API.ApiResponses.CompanySchedules
-            {
-                Hour = "15:00"
-            });
-            CompanySchedules.Add(new API.ApiResponses.CompanySchedules
-            {
-                Hour = "16:00"
-            });
-            CompanySchedules.Add(new API.ApiResponses.CompanySchedules
-            {
-                Hour = "17:00"
-            });
+                _companyId = parameters.GetValue<int>("CompanyId");
+            }
+            LoadDataAsync();
         }
     }
 }

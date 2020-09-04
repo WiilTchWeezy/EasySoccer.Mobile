@@ -10,5 +10,6 @@ namespace EasySoccer.Mobile.API.ApiResponses
         public ObservableCollection<CompanySchedulesEvent> Events { get; set; }
 
         public string Hour { get; set; }
+        public TimeSpan HourSpan { get; set; }
     }
 }

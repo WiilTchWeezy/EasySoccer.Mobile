@@ -6,10 +6,12 @@ namespace EasySoccer.Mobile.API.ApiResponses
 {
     public class CompanySchedulesEvent
     {
+        public string ScheduleHour { get; set; }
         public string SoccerPitch { get; set; }
+        public string PersonName { get; set; }
+        public bool HasReservation { get; set; }
+        public long SoccerPitchId { get; set; }
 
-        public string UserName { get; set; }
-
-        public string SelectedHour { get; set; }
+        public bool NotHaveReservation { get { return !HasReservation; }  }
     }
 }

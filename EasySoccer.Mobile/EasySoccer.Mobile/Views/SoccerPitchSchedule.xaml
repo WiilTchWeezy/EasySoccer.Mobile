@@ -9,7 +9,7 @@
             <Frame CornerRadius="10" HasShadow="True">
                 <StackLayout>
                     <Label Text="Data Selecionada" Style="{StaticResource gilroyLightLabel}"/>
-                    <DatePicker Style="{StaticResource gilroyLightLabel}"></DatePicker>
+                    <DatePicker Date="{Binding SelectedDate}" Style="{StaticResource gilroyLightLabel}"></DatePicker>
                 </StackLayout>
             </Frame>
             <CollectionView ItemsSource="{Binding CompanySchedules}">
@@ -30,9 +30,9 @@
                                         <DataTemplate>
                                             <Frame BorderColor="#161E53" CornerRadius="10">
                                                 <StackLayout>
-                                                    <Label Text="{Binding SelectedHour}" Style="{StaticResource gilroyLabel}" IsVisible="True"/>
+                                                    <Label Text="{Binding ScheduleHour}" Style="{StaticResource gilroyLabel}" IsVisible="{Binding HasReservation}"/>
                                                     <Label Text="{Binding SoccerPitch}" Style="{StaticResource gilroyLightLabel}"/>
-                                                    <Grid BackgroundColor="#FF591F" Margin="7,0,7,-10" Padding="3" IsVisible="False">
+                                                    <Grid BackgroundColor="#FF591F" Margin="10,0,10,-10" Padding="3" IsVisible="{Binding NotHaveReservation}">
                                                         <Grid.GestureRecognizers>
                                                             <TapGestureRecognizer Command="{Binding ScheduleHour}"/>
                                                         </Grid.GestureRecognizers>
