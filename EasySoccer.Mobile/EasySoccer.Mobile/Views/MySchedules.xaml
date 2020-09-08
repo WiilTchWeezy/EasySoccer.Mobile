@@ -10,6 +10,9 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="10">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenReservationInfoCommand}"/>
+                        </StackLayout.GestureRecognizers>
                         <Frame HasShadow="True" CornerRadius="10" Padding="0" IsClippedToBounds="True">
                             <Grid Margin="0" Padding="0">
                                 <Grid.RowDefinitions>

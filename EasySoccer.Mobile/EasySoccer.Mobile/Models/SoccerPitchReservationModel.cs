@@ -1,4 +1,7 @@
 ﻿using EasySoccer.Mobile.API.ApiResponses;
+using EasySoccer.Mobile.Infra;
+using Prism.Commands;
+using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,8 +11,11 @@ namespace EasySoccer.Mobile.Models
 {
     public class SoccerPitchReservationModel : SoccerPitchReservationResponse
     {
-        public SoccerPitchReservationModel(SoccerPitchReservationResponse item)
+        public DelegateCommand OpenReservationInfoCommand { get; set; }
+        private INavigationService _navigationService;
+        public SoccerPitchReservationModel(SoccerPitchReservationResponse item, INavigationService navigationService)
         {
+            this.Id = item.Id;
             this.SelectedDate = item.SelectedDate;
             this.SelectedHourEnd = item.SelectedHourEnd;
             this.SelectedHourStart = item.SelectedHourStart;
@@ -17,12 +23,21 @@ namespace EasySoccer.Mobile.Models
             this.SoccerPitchName = item.SoccerPitchName;
             this.UserName = item.UserName;
             this.CompanyName = item.CompanyName;
-            this.CompanyImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQjne-aTNHMNq_X8tpP-7G-T1OsPEsJ7GubYn8htIMP-3L0sv3z";
+            this.CompanyImage = Application.Instance.GetImage(item.Logo, Infra.Enums.BlobContainerEnum.Company);
+            OpenReservationInfoCommand = new DelegateCommand(OpenReservationInfo);
+            _navigationService = navigationService;
         }
 
-        public SoccerPitchReservationModel()
+        public SoccerPitchReservationModel(INavigationService navigationService)
         {
-
+            OpenReservationInfoCommand = new DelegateCommand(OpenReservationInfo);
+            _navigationService = navigationService;
+        }
+        private void OpenReservationInfo()
+        {
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add("ReservationId", this.Id);
+            _navigationService.NavigateAsync("ReservationInfo", navigationParameters);
         }
 
         public string CompanyImage { get; set; }
@@ -32,7 +47,7 @@ namespace EasySoccer.Mobile.Models
             get
             {
                 var cultureInfo = new CultureInfo("pt-BR");
-                return cultureInfo.TextInfo.ToTitleCase(this.SelectedDate.ToString("ddd", cultureInfo)) + " · " +  this.SelectedDate.ToString("dd MMMM yyyy", cultureInfo) + " (" + this.SelectedHourStart.Hours.ToString("00") + ":" + this.SelectedHourStart.Minutes.ToString("00") + " - " + this.SelectedHourEnd.Hours.ToString("00") + ":" + this.SelectedHourEnd.Minutes.ToString("00") + ")";
+                return cultureInfo.TextInfo.ToTitleCase(this.SelectedDate.ToString("ddd", cultureInfo)) + " · " + this.SelectedDate.ToString("dd MMMM yyyy", cultureInfo) + " (" + this.SelectedHourStart.Hours.ToString("00") + ":" + this.SelectedHourStart.Minutes.ToString("00") + " - " + this.SelectedHourEnd.Hours.ToString("00") + ":" + this.SelectedHourEnd.Minutes.ToString("00") + ")";
             }
         }
 

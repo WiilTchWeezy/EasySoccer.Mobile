@@ -33,5 +33,7 @@ namespace EasySoccer.Mobile.API.ApiResponses
         public string SoccerPitchName { get; set; }
         public string UserName { get; set; }
         public string CompanyName { get; set; }
+
+        public string Logo { get; set; }
     }
 }

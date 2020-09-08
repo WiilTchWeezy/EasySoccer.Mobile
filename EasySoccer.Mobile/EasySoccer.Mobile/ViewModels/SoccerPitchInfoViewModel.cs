@@ -115,6 +115,7 @@ namespace EasySoccer.Mobile.ViewModels
         {
             var navigationParameters = new NavigationParameters();
             navigationParameters.Add("CompanyId", _companyId);
+            navigationParameters.Add("CurrentCompany", JsonConvert.SerializeObject(_currentCompany));
             _navigationService.NavigateAsync("SoccerPitchSchedule", navigationParameters);
         }
 
@@ -142,6 +143,7 @@ namespace EasySoccer.Mobile.ViewModels
         private async Task LoadSportTypesAsync()
         {
             SportTypes.Clear();
+            SportTypesNames.Clear();
             try
             {
                 var response = await ApiClient.Instance.GetSportTypesAsync(_companyId);

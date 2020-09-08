@@ -66,7 +66,10 @@ namespace EasySoccer.Mobile.API
             try
             {
                 if (httpResponse.StatusCode == System.Net.HttpStatusCode.OK)
-                    return JsonConvert.DeserializeObject<T>(await httpResponse.Content.ReadAsStringAsync());
+                {
+                    var response = await httpResponse.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<T>(response);
+                }
                 else if (httpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
                     UserDialogs.Instance.HideLoading();
@@ -239,6 +242,11 @@ namespace EasySoccer.Mobile.API
         public async Task<List<CompanySchedules>> GetCompanyReservationSchedulesAsync(int companyId, DateTime selectedDate)
         {
             return await Get<List<CompanySchedules>>("SoccerPitchReservation/getschedules?" + GenerateQueryParameters(new { companyId, selectedDate }));
+        }
+
+        public async Task<ReservationInfoResponse> GetReservationInfoAsync(Guid reservationId)
+        {
+            return await Get<ReservationInfoResponse>("SoccerPitchReservation/getInfo?" + GenerateQueryParameters(new { reservationId }));
         }
     }
 }

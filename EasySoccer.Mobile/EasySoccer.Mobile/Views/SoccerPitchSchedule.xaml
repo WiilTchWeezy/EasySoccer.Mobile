@@ -5,7 +5,15 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="EasySoccer.Mobile.Views.SoccerPitchSchedule">
     <ContentPage.Content>
-        <StackLayout Padding="5" BackgroundColor="#DCDCDC">
+        <ScrollView>
+        <StackLayout>
+            <Image Source="{Binding Image}" Aspect="Fill" HeightRequest="150"></Image>
+            <StackLayout Padding="5">
+                <Label Text="{Binding Name}" Style="{StaticResource gilroyLabel}" FontAttributes="Bold" FontSize="Title"></Label>
+                <Label Text="{Binding City}" Style="{StaticResource gilroyLightLabel}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                <Label Text="{Binding CompleteAddress}" Style="{StaticResource gilroyLightLabel}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+            </StackLayout>
+            <StackLayout Padding="5" BackgroundColor="#DCDCDC">
             <Frame CornerRadius="10" HasShadow="True">
                 <StackLayout>
                     <Label Text="Data Selecionada" Style="{StaticResource gilroyLightLabel}"/>
@@ -60,6 +68,8 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </StackLayout>
+        </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
   
 </ContentPage>

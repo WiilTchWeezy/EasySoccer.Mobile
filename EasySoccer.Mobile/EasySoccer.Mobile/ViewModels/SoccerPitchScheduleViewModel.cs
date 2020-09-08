@@ -1,6 +1,8 @@
 ﻿using Acr.UserDialogs;
 using EasySoccer.Mobile.API;
 using EasySoccer.Mobile.API.ApiResponses;
+using EasySoccer.Mobile.Models;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -27,7 +29,36 @@ namespace EasySoccer.Mobile.ViewModels
             }
         }
 
+        private string _image;
+        public string Image
+        {
+            get { return _image; }
+            set { SetProperty(ref _image, value); }
+        }
+
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set { SetProperty(ref _name, value); }
+        }
+
+        private string _city;
+        public string City
+        {
+            get { return _city; }
+            set { SetProperty(ref _city, value); }
+        }
+
+        private string _completeAddress;
+        public string CompleteAddress
+        {
+            get { return _completeAddress; }
+            set { SetProperty(ref _completeAddress, value); }
+        }
+
         private int _companyId = 0;
+        private CompanyModel _currentCompany;
         public SoccerPitchScheduleViewModel()
         {
             CompanySchedules = new ObservableCollection<CompanySchedules>();
@@ -64,6 +95,19 @@ namespace EasySoccer.Mobile.ViewModels
             if (parameters.ContainsKey("CompanyId"))
             {
                 _companyId = parameters.GetValue<int>("CompanyId");
+            }
+            if(parameters.ContainsKey("CurrentCompany"))
+            {
+                var jsonObject = parameters.GetValue<string>("CurrentCompany");
+                var currentCompany = JsonConvert.DeserializeObject<CompanyModel>(jsonObject);
+                if(currentCompany != null)
+                {
+                    _currentCompany = currentCompany;
+                    Image = _currentCompany.Image;
+                    City = _currentCompany.City;
+                    CompleteAddress = _currentCompany.CompleteAddress;
+                    Name = _currentCompany.Name;
+                }
             }
             LoadDataAsync();
         }

@@ -14,9 +14,11 @@ namespace EasySoccer.Mobile.ViewModels
     public class MySchedulesViewModel : BindableBase, INavigationAware
     {
         public ObservableCollection<SoccerPitchReservationModel> Schedules { get; set; }
-        public MySchedulesViewModel()
+        private INavigationService _navigationService;
+        public MySchedulesViewModel(INavigationService navigationService)
         {
             Schedules = new ObservableCollection<SoccerPitchReservationModel>();
+            _navigationService = navigationService;
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)
@@ -39,7 +41,7 @@ namespace EasySoccer.Mobile.ViewModels
                     Schedules.Clear();
                     foreach (var item in response)
                     {
-                        Schedules.Add(new SoccerPitchReservationModel(item));
+                        Schedules.Add(new SoccerPitchReservationModel(item, _navigationService));
                     }
                 }
             }
