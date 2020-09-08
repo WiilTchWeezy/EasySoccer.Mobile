@@ -164,10 +164,17 @@ namespace EasySoccer.Mobile.Models
                     if (SelectedIndexPitch.HasValue && SelectedIndexPlan.HasValue)
                     {
                         var reservationRespone = await ApiClient.Instance.MakeReservationAsync(PossibleSoccerPitchs[_selectedIndexPitch.Value].Id, CurrentUser.Instance.UserId.Value, this.SelectedDate, this.SelectedHourStart, this.SelectedHourEnd, SoccerPitchPlans[this.SelectedIndexPlan.Value].Id);
-                        if (reservationRespone != null)
+                        if (reservationRespone != null && reservationRespone.Id != Guid.Empty)
                         {
                             UserDialogs.Instance.Alert("Agendamento realizado com sucesso.");
-                            await _navigationService.GoBackToRootAsync();
+                            var navigationParameters = new NavigationParameters();
+                            navigationParameters.Add("ReservationId", reservationRespone.Id);
+                            await _navigationService.GoBackToRootAsync(navigationParameters);
+
+                        }
+                        else
+                        {
+                            UserDialogs.Instance.Alert("Ocorreu um erro ao realizar o agendamento.");
                         }
                     }
                 }

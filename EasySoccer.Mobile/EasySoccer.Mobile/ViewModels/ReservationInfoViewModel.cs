@@ -74,6 +74,20 @@ namespace EasySoccer.Mobile.ViewModels
             get { return _hours; }
             set { SetProperty(ref _hours, value); }
         }
+
+        private string _soccerPitchPlanName;
+        public string SoccerPitchPlanName
+        {
+            get { return _soccerPitchPlanName; }
+            set { SetProperty(ref _soccerPitchPlanName, value); }
+        }
+
+        private string _soccerPitchPlanDescription;
+        public string SoccerPitchPlanDescription
+        {
+            get { return _soccerPitchPlanDescription; }
+            set { SetProperty(ref _soccerPitchPlanDescription, value); }
+        }
         public ReservationInfoViewModel()
         {
 
@@ -95,6 +109,8 @@ namespace EasySoccer.Mobile.ViewModels
                     SoccerPitchName = response.SoccerPitchName;
                     SelectedDate = response.SelectedDateStart.ToString("dd/MM/yyyy");
                     Hours = $"{response.SelectedDateStart:HH:mm} - {response.SelectedDateEnd:HH:mm}";
+                    SoccerPitchPlanName = response.SoccerPitchPlanName;
+                    SoccerPitchPlanDescription = response.SoccerPitchPlanDescription;
                 }
             }
             catch (Exception e)

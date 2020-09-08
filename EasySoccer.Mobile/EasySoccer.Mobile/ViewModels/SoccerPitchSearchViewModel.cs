@@ -85,6 +85,8 @@ namespace EasySoccer.Mobile.ViewModels
             if (parameters.ContainsKey("OrderDirection"))
                 orderDirection = parameters.GetValue<string>("OrderDirection");
             LoadDataAsync(filterText, orderField, orderDirection);
+            if(parameters.ContainsKey("ReservationId"))
+                _navigationService.NavigateAsync("ReservationInfo", parameters);
         }
     }
 }
