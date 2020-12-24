@@ -248,5 +248,15 @@ namespace EasySoccer.Mobile.API
         {
             return await Get<ReservationInfoResponse>("SoccerPitchReservation/getInfo?" + GenerateQueryParameters(new { reservationId }));
         }
+
+        public async Task<InserTokenResponse> InserTokenAsync(string token)
+        {
+            return await Post<InserTokenResponse>("User/inserttoken", new { Token = token });
+        }
+
+        public async Task<object> LogOffTokenAsync(string token)
+        {
+            return await Post<object>("User/logofftoken", new { Token = token });
+        }
     }
 }

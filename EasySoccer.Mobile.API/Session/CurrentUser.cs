@@ -1,4 +1,5 @@
 ﻿using EasySoccer.Common.Events;
+using Newtonsoft.Json;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -76,8 +77,20 @@ namespace EasySoccer.Mobile.API.Session
             }
         }
 
-        public void LogOff()
+        public async void LogOff()
         {
+            var fcmToken = Preferences.Get("FcmToken", string.Empty);
+            if (Preferences.ContainsKey("FcmToken") && string.IsNullOrEmpty(fcmToken) == false)
+            {
+                try
+                {
+                    await ApiClient.Instance.LogOffTokenAsync(fcmToken);
+                }
+                catch (Exception e)
+                {
+
+                }
+            }
             Preferences.Remove("AuthToken");
             Preferences.Remove("AuthExpiresDate");
             _eventAggregator?.GetEvent<UserLoggedInEvent>().Publish(false);

@@ -9,6 +9,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
+using Xamarin.Essentials;
 
 namespace EasySoccer.Mobile.ViewModels
 {
@@ -55,6 +56,11 @@ namespace EasySoccer.Mobile.ViewModels
                     var loginResponse = await ApiClient.Instance.LoginFromFacebook(facebookResponseData.email, facebookResponseData.first_name, facebookResponseData.last_name, facebookResponseData.birthday, facebookResponseData.id);
                     if (loginResponse != null && string.IsNullOrEmpty(loginResponse.Token) == false)
                     {
+                        var fcmToken = Preferences.Get("FcmToken", string.Empty);
+                        if (Preferences.ContainsKey("FcmToken") && string.IsNullOrEmpty(fcmToken) == false)
+                        {
+                            var token = await ApiClient.Instance.InserTokenAsync(fcmToken);
+                        }
                         _eventAggregator.GetEvent<UserLoggedInEvent>().Publish(true);
                         await _navigationService.GoBackAsync();
                     }
@@ -79,6 +85,11 @@ namespace EasySoccer.Mobile.ViewModels
                 if (loginResponse != null)
                 {
                     _eventAggregator.GetEvent<UserLoggedInEvent>().Publish(true);
+                    var fcmToken = Preferences.Get("FcmToken", string.Empty);
+                    if (Preferences.ContainsKey("FcmToken") && string.IsNullOrEmpty(fcmToken) == false)
+                    {
+                        var token = await ApiClient.Instance.InserTokenAsync( fcmToken );
+                    }
                     await _navigationService.GoBackAsync();
                 }
             }

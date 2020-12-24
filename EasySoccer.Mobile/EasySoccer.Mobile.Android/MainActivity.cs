@@ -4,7 +4,11 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using EasySoccer.Mobile.API;
+using EasySoccer.Mobile.API.Session;
+using EasySoccer.Mobile.Droid.Services;
 using Plugin.FacebookClient;
+using Plugin.FirebasePushNotification;
 using Prism;
 using Prism.Ioc;
 using System;
@@ -26,7 +30,59 @@ namespace EasySoccer.Mobile.Droid
             global::Xamarin.Forms.FormsMaterial.Init(this, bundle);
             FacebookClientManager.Initialize(this);
             UserDialogs.Init(this);
+            if (Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
+            {
+                FirebasePushNotificationManager.DefaultNotificationChannelId = "EasySoccerNotificationChannel";
+                FirebasePushNotificationManager.DefaultNotificationChannelName = "Geral";
+            }
+
+#if DEBUG
+            FirebasePushNotificationManager.Initialize(this, true);
+#else
+              FirebasePushNotificationManager.Initialize(this,false);
+#endif
+
+            //Handle notification when app is closed here
+            CrossFirebasePushNotification.Current.OnNotificationReceived += (s, p) =>
+            {
+                var notificationService = new LocalNotificationService();
+                object messageObj = string.Empty;
+                object titleObj = string.Empty;
+                if (p.Data.ContainsKey("message"))
+                    p.Data.TryGetValue("message", out messageObj);
+                if (p.Data.ContainsKey("title"))
+                    p.Data.TryGetValue("title", out titleObj);
+                var message = messageObj.ToString();
+                var title = titleObj.ToString();
+
+                if (string.IsNullOrEmpty(message) == false && string.IsNullOrEmpty(title) == false)
+                {
+                    notificationService.SendLocalNotification(this, title, message);
+                }
+            };
+
+            CrossFirebasePushNotification.Current.OnTokenRefresh += (s, p) =>
+            {
+                System.Diagnostics.Debug.WriteLine($"TOKEN : {p.Token}");
+                if (Xamarin.Essentials.Preferences.ContainsKey("FcmToken") && string.IsNullOrEmpty(Xamarin.Essentials.Preferences.Get("FcmToken", string.Empty)) == false)
+                {
+                    Xamarin.Essentials.Preferences.Remove("FcmToken");
+                }
+                Xamarin.Essentials.Preferences.Set("FcmToken", p.Token);
+                if (CurrentUser.Instance.IsLoggedIn)
+                {
+                    try
+                    {
+                        ApiClient.Instance.InserTokenAsync( p.Token).GetAwaiter().GetResult();
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
+            };
             LoadApplication(new App(new AndroidInitializer()));
+            FirebasePushNotificationManager.ProcessIntent(this, Intent);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
