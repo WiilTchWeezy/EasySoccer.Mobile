@@ -88,7 +88,8 @@ namespace EasySoccer.Mobile.API.Session
                 }
                 catch (Exception e)
                 {
-
+                    Preferences.Remove("AuthToken");
+                    Preferences.Remove("AuthExpiresDate");
                 }
             }
             Preferences.Remove("AuthToken");
