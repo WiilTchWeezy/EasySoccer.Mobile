@@ -50,6 +50,9 @@
                     </CollectionView.EmptyView>
                 </CollectionView>
                 <StackLayout Margin="5">
+                    <Button Text="Visualizar Agenda" FontFamily="Gilroy-Light.otf#Gilroy-Light" TextColor="#FFF" BackgroundColor="#161E53" Command="{Binding OpenSheduleCommand}"></Button>
+                </StackLayout>
+                <StackLayout Margin="5">
                     <Label Style="{StaticResource gilroyLightLabel}" Text="Selecione a data e hora que deseja marcar o horário."/>
                     <Picker ItemsSource="{Binding SportTypesNames}" SelectedIndex="{Binding SelectedSportTypeIndex}" FontFamily="Gilroy-Light.otf#Gilroy-Light" Title="Tipo de esporte"></Picker>
                     <Grid>

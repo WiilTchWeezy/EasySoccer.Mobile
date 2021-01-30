@@ -254,9 +254,9 @@ namespace EasySoccer.Mobile.API
             return await Post<InserTokenResponse>("User/inserttoken", new { Token = token });
         }
 
-        public async Task<object> LogOffTokenAsync(string token)
+        public async Task<object> LogOffTokenAsync(string token, Guid userId)
         {
-            return await Post<object>("User/logofftoken", new { Token = token });
+            return await Post<object>("User/logofftoken", new { Token = token, UserId = userId });
         }
     }
 }

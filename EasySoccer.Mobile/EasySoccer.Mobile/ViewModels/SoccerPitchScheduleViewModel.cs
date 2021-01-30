@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace EasySoccer.Mobile.ViewModels
 {
@@ -27,6 +28,13 @@ namespace EasySoccer.Mobile.ViewModels
                 if (SetProperty(ref _selectedDate, value))
                     LoadDataAsync();
             }
+        }
+
+        private DateTime _minimumDate;
+        public DateTime MinimumDate
+        {
+            get { return _minimumDate; }
+            set { SetProperty(ref _minimumDate, value); }
         }
 
         private string _image;
@@ -58,11 +66,16 @@ namespace EasySoccer.Mobile.ViewModels
         }
 
         private int _companyId = 0;
+        private INavigationService _navigationService;
         private CompanyModel _currentCompany;
-        public SoccerPitchScheduleViewModel()
+        public DelegateCommand ScheduleHour { get; set; }
+        public SoccerPitchScheduleViewModel(INavigationService navigationService)
         {
+            _navigationService = navigationService;
             CompanySchedules = new ObservableCollection<CompanySchedules>();
             SelectedDate = DateTime.Now;
+            MinimumDate = DateTime.Now;
+            ScheduleHour = new DelegateCommand(OpenReservationConfirmation);
         }
 
         private async Task LoadDataAsync()
@@ -75,6 +88,11 @@ namespace EasySoccer.Mobile.ViewModels
                     CompanySchedules.Clear();
                     foreach (var item in response)
                     {
+                        item.ScheduleHour = this.ScheduleHour;
+                        foreach (var e in item.Events)
+                        {
+                            e.ScheduleHourCommand = this.ScheduleHour;
+                        }
                         CompanySchedules.Add(item);
                     }
                 }
@@ -83,6 +101,11 @@ namespace EasySoccer.Mobile.ViewModels
             {
                 UserDialogs.Instance.Alert(e.Message);
             }
+        }
+
+        public void OpenReservationConfirmation()
+        {
+            _navigationService.NavigateAsync("ReservationConfirmation");
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)

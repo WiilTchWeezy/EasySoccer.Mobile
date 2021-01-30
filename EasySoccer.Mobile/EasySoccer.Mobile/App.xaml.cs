@@ -42,6 +42,7 @@ namespace EasySoccer.Mobile
             containerRegistry.RegisterForNavigation<SoccerPitchFilter, SoccerPitchFilterViewModel>();
             containerRegistry.RegisterForNavigation<SoccerPitchSchedule, SoccerPitchScheduleViewModel>();
             containerRegistry.RegisterForNavigation<ReservationInfo, ReservationInfoViewModel>();
+            containerRegistry.RegisterForNavigation<ReservationConfirmation, ReservationConfirmationViewModel>();
         }
     }
 }

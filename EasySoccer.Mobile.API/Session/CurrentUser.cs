@@ -84,7 +84,8 @@ namespace EasySoccer.Mobile.API.Session
             {
                 try
                 {
-                    await ApiClient.Instance.LogOffTokenAsync(fcmToken);
+                    if (this.IsLoggedIn && this.UserId.HasValue)
+                        await ApiClient.Instance.LogOffTokenAsync(fcmToken, this.UserId.Value);
                 }
                 catch (Exception e)
                 {
