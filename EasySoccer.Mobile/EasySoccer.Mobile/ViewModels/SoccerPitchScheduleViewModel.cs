@@ -17,7 +17,7 @@ namespace EasySoccer.Mobile.ViewModels
 {
     public class SoccerPitchScheduleViewModel : BindableBase, INavigationAware
     {
-        public ObservableCollection<CompanySchedules> CompanySchedules { get; set; }
+        public ObservableCollection<CompanySchedulesModel> CompanySchedules { get; set; }
 
         private DateTime _selectedDate;
         public DateTime SelectedDate
@@ -72,7 +72,7 @@ namespace EasySoccer.Mobile.ViewModels
         public SoccerPitchScheduleViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            CompanySchedules = new ObservableCollection<CompanySchedules>();
+            CompanySchedules = new ObservableCollection<CompanySchedulesModel>();
             SelectedDate = DateTime.Now;
             MinimumDate = DateTime.Now;
             ScheduleHour = new DelegateCommand(OpenReservationConfirmation);
@@ -88,12 +88,7 @@ namespace EasySoccer.Mobile.ViewModels
                     CompanySchedules.Clear();
                     foreach (var item in response)
                     {
-                        item.ScheduleHour = this.ScheduleHour;
-                        foreach (var e in item.Events)
-                        {
-                            e.ScheduleHourCommand = this.ScheduleHour;
-                        }
-                        CompanySchedules.Add(item);
+                        CompanySchedules.Add(new CompanySchedulesModel(item, _navigationService, Image, City, CompleteAddress, _companyId, SelectedDate, Name));
                     }
                 }
             }

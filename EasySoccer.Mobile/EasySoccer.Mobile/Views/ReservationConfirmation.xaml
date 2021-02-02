@@ -3,6 +3,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="EasySoccer.Mobile.Views.ReservationConfirmation">
-  
+             x:Class="EasySoccer.Mobile.Views.ReservationConfirmation"
+             Visual="Material">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Image Source="{Binding Image}" Aspect="Fill" HeightRequest="150"></Image>
+                <StackLayout Padding="5">
+                    <Label Text="{Binding Name}" Style="{StaticResource gilroyLabel}" FontAttributes="Bold" FontSize="Title"></Label>
+                    <Label Text="{Binding City}" Style="{StaticResource gilroyLightLabel}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                    <Label Text="{Binding CompleteAddress}" Style="{StaticResource gilroyLightLabel}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                    <Frame HasShadow="True" BorderColor="#DCDCDC" CornerRadius="20" VerticalOptions="FillAndExpand" WidthRequest="200" Padding="0" IsClippedToBounds="True" IsVisible="{Binding SoccerPitchVisible}">
+                        <Grid Margin="0" Padding="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Image Source="{Binding SoccerPitchImage}" Grid.Row="0" Aspect="Fill" HeightRequest="130"></Image>
+                            <StackLayout Grid.Row="1" Padding="10, 5,5,5" Spacing="2">
+                                <Label Text="{Binding SoccerPitchName}" Style="{StaticResource gilroyLabel}" VerticalOptions="Center" FontSize="Medium" FontAttributes="Bold"></Label>
+                                <Label Text="{Binding SoccerPitchNumberOfPlayers}" Style="{StaticResource gilroyLightLabel}" VerticalOptions="Center" FontSize="Medium" FontAttributes="Bold"></Label>
+                                <Label Text="{Binding SoccerPitchSportType}" Style="{StaticResource gilroyLightLabel}" VerticalOptions="Center" FontSize="Small" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                    <Frame BorderColor="#DCDCDC" CornerRadius="20" HasShadow="True">
+                        <StackLayout>
+                            <Entry Text="{Binding SelectedDateText}" BackgroundColor="Transparent" Placeholder="Data selecionada" IsEnabled="False" FontFamily="Gilroy-Light.otf#Gilroy-Light" ></Entry>
+                            <Picker ItemsSource="{Binding SoccerPitchs}" BackgroundColor="Transparent" IsEnabled="{Binding SoccerPitchEnabled}" Title="Quadras dísponiveis" FontFamily="Gilroy-Light.otf#Gilroy-Light" SelectedIndex="{Binding IndexSoccerPicth}"></Picker>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Picker ItemsSource="{Binding Hours}" Grid.Column="0" Title="Horário Inicial" BackgroundColor="Transparent" SelectedIndex="{Binding SelectedHourIndex}"  FontFamily="Gilroy-Light.otf#Gilroy-Light"></Picker>
+                                <Entry Grid.Column="1" Placeholder="Horário Final" BackgroundColor="Transparent" Text="{Binding CurrentHourEnd}" IsEnabled="False" FontFamily="Gilroy-Light.otf#Gilroy-Light"></Entry>
+                            </Grid>
+                            <Button Text="Realizar agendamento" FontFamily="Gilroy-Light.otf#Gilroy-Light" TextColor="#FFF" BackgroundColor="#161E53" Command="{Binding CheckScheduleAvaliableCommand}"></Button>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
 </ContentPage>

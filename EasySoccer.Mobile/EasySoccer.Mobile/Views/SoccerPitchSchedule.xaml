@@ -27,7 +27,7 @@
                             <BoxView Color="#161E53" HorizontalOptions="FillAndExpand" HeightRequest="1"/>
                             <Label Text="{Binding Hour}" Style="{StaticResource gilroyLabel}"/>
                             <Grid BackgroundColor="#888888" Padding="5">
-                                <CollectionView ItemsSource="{Binding Events}" >
+                                        <CollectionView ItemsSource="{Binding EventsModel}" >
                                     <CollectionView.ItemsLayout>
                                         <LinearItemsLayout Orientation="Horizontal"    
                                SnapPointsType="MandatorySingle"
@@ -55,7 +55,7 @@
                                             <Label TextColor="#FFF" Text="Nenhum horário agendado." HorizontalOptions="Center" Style="{StaticResource gilroyLightLabel}" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
                                             <Grid BackgroundColor="#FF591F" Margin="35,0,35,0" Padding="5">
                                                 <Grid.GestureRecognizers>
-                                                            <TapGestureRecognizer Command="{Binding ScheduleHour}"/>
+                                                            <TapGestureRecognizer Command="{Binding ScheduleHourCommand}"/>
                                                 </Grid.GestureRecognizers>
                                                 <Label Text="Agendar" TextColor="#FFF" Style="{StaticResource gilroyLightLabel}" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                                             </Grid>

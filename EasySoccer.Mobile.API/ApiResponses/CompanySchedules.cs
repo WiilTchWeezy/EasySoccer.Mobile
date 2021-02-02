@@ -12,6 +12,6 @@ namespace EasySoccer.Mobile.API.ApiResponses
 
         public string Hour { get; set; }
         public TimeSpan HourSpan { get; set; }
-        public DelegateCommand ScheduleHour { get; set; }
+        public DelegateCommand ScheduleHourCommand { get; set; }
     }
 }
