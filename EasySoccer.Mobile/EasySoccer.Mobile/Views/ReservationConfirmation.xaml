@@ -31,6 +31,7 @@
                         <StackLayout>
                             <Entry Text="{Binding SelectedDateText}" BackgroundColor="Transparent" Placeholder="Data selecionada" IsEnabled="False" FontFamily="Gilroy-Light.otf#Gilroy-Light" ></Entry>
                             <Picker ItemsSource="{Binding SoccerPitchs}" BackgroundColor="Transparent" IsEnabled="{Binding SoccerPitchEnabled}" Title="Quadras dísponiveis" FontFamily="Gilroy-Light.otf#Gilroy-Light" SelectedIndex="{Binding IndexSoccerPicth}"></Picker>
+                            <Picker ItemsSource="{Binding Plans}" BackgroundColor="Transparent" Title="Planos" FontFamily="Gilroy-Light.otf#Gilroy-Light" SelectedIndex="{Binding IndexSoccerPicthPlan}"></Picker>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -39,7 +40,7 @@
                                 <Picker ItemsSource="{Binding Hours}" Grid.Column="0" Title="Horário Inicial" BackgroundColor="Transparent" SelectedIndex="{Binding SelectedHourIndex}"  FontFamily="Gilroy-Light.otf#Gilroy-Light"></Picker>
                                 <Entry Grid.Column="1" Placeholder="Horário Final" BackgroundColor="Transparent" Text="{Binding CurrentHourEnd}" IsEnabled="False" FontFamily="Gilroy-Light.otf#Gilroy-Light"></Entry>
                             </Grid>
-                            <Button Text="Realizar agendamento" FontFamily="Gilroy-Light.otf#Gilroy-Light" TextColor="#FFF" BackgroundColor="#161E53" Command="{Binding CheckScheduleAvaliableCommand}"></Button>
+                            <Button Text="Realizar agendamento" FontFamily="Gilroy-Light.otf#Gilroy-Light" TextColor="#FFF" BackgroundColor="#161E53" Command="{Binding MakeReservationCommand}"></Button>
                         </StackLayout>
                     </Frame>
                 </StackLayout>

@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using EasySoccer.Mobile.API;
 using EasySoccer.Mobile.API.ApiResponses;
+using EasySoccer.Mobile.API.Session;
 using EasySoccer.Mobile.Infra;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -127,8 +128,20 @@ namespace EasySoccer.Mobile.ViewModels
                 if (SetProperty(ref _indexSoccerPicth, value))
                 {
                     if (_indexSoccerPicth.HasValue)
+                    {
                         UpdateSoccerPitchInfo();
+                    }
                 }
+            }
+        }
+
+        private int _indexSoccerPicthPlan = -1;
+        public int IndexSoccerPicthPlan
+        {
+            get { return _indexSoccerPicthPlan; }
+            set
+            {
+                SetProperty(ref _indexSoccerPicthPlan, value);
             }
         }
 
@@ -142,16 +155,27 @@ namespace EasySoccer.Mobile.ViewModels
 
         private long _companyId;
         private long _soccerPitchId = 0;
+        private TimeSpan _hourStart = TimeSpan.Zero;
+        private TimeSpan _hourEnd = TimeSpan.Zero;
         private DateTime _selectedDate;
 
         public ObservableCollection<SoccerPitchResponse> SoccerPitchsObject { get; set; }
+        public ObservableCollection<SoccerPitchPlanResponse> PlansObject { get; set; }
+        public ObservableCollection<string> Plans { get; set; }
         public ObservableCollection<string> SoccerPitchs { get; set; }
         public ObservableCollection<string> Hours { get; set; }
-        public ReservationConfirmationViewModel()
+
+        public DelegateCommand MakeReservationCommand { get; set; }
+        private INavigationService _navigationService;
+        public ReservationConfirmationViewModel(INavigationService navigationService)
         {
             SoccerPitchsObject = new ObservableCollection<SoccerPitchResponse>();
             SoccerPitchs = new ObservableCollection<string>();
             Hours = new ObservableCollection<string>();
+            PlansObject = new ObservableCollection<SoccerPitchPlanResponse>();
+            Plans = new ObservableCollection<string>();
+            _navigationService = navigationService;
+            MakeReservationCommand = new DelegateCommand(MakeReservation);
         }
 
         private async void LoadDataAsync()
@@ -185,9 +209,11 @@ namespace EasySoccer.Mobile.ViewModels
                     SoccerPitchVisible = true;
                     SoccerPitchName = currentSoccerPitch.Name;
                     SoccerPitchNumberOfPlayers = $"Quantidade de jogadores :{currentSoccerPitch.NumberOfPlayers}";
-                    SoccerPitchImage = Application.Instance.GetImage(currentSoccerPitch.Image, Infra.Enums.BlobContainerEnum.SoccerPitch);
+                    SoccerPitchImage = Application.Instance.GetImage(currentSoccerPitch.ImageName, Infra.Enums.BlobContainerEnum.SoccerPitch);
                     SoccerPitchSportType = currentSoccerPitch.SportTypeName;
+                    _soccerPitchId = currentSoccerPitch.Id;
                     UpdateHours(currentSoccerPitch);
+                    LoadPlansAsync();
                 }
             }
             else if (_soccerPitchId > 0)
@@ -202,6 +228,7 @@ namespace EasySoccer.Mobile.ViewModels
                     SoccerPitchImage = Application.Instance.GetImage(currentSoccerPitch.Image, Infra.Enums.BlobContainerEnum.SoccerPitch);
                     SoccerPitchSportType = currentSoccerPitch.SportTypeName;
                     UpdateHours(currentSoccerPitch);
+                    LoadPlansAsync();
                 }
             }
             else
@@ -218,10 +245,68 @@ namespace EasySoccer.Mobile.ViewModels
                 TimeSpan currentHourStart = TimeSpan.Zero;
                 if (TimeSpan.TryParse(currentHour, out currentHourStart))
                 {
+                    _hourStart = currentHourStart;
                     var currentHourEnd = currentHourStart.Add(TimeSpan.FromMinutes(soccerPitch.Interval));
+                    _hourEnd = currentHourEnd;
                     CurrentHourEnd = $"{currentHourEnd.Hours:00}:{currentHourEnd.Minutes:00}";
                 }
             }
+        }
+
+        private async void MakeReservation()
+        {
+            try
+            {
+                if (CurrentUser.Instance.IsLoggedIn && CurrentUser.Instance.UserId.HasValue && PlansObject.Count > IndexSoccerPicthPlan)
+                {
+                    var plan = PlansObject[IndexSoccerPicthPlan];
+                    var reservationResponse = await ApiClient.Instance.MakeReservationAsync(_soccerPitchId, CurrentUser.Instance.UserId.Value, _selectedDate, _hourStart, _hourEnd, plan.Id);
+                    if (reservationResponse != null && reservationResponse.Id != Guid.Empty)
+                    {
+                        UserDialogs.Instance.Alert("Agendamento realizado com sucesso.");
+                        var navigationParameters = new NavigationParameters();
+                        navigationParameters.Add("ReservationId", reservationResponse.Id);
+                        await _navigationService.GoBackToRootAsync(navigationParameters);
+
+                    }
+                    else
+                    {
+                        UserDialogs.Instance.Alert("Ocorreu um erro ao realizar o agendamento.");
+                    }
+                }
+                else
+                {
+                    await _navigationService.NavigateAsync("Login", useModalNavigation: true);
+                }
+            }
+            catch (Exception e)
+            {
+                UserDialogs.Instance.Alert(e.Message);
+            }
+        }
+
+        private async void LoadPlansAsync()
+        {
+            try
+            {
+                var plansResponse = await ApiClient.Instance.GetSoccerPitchPlanBySoccerPitchAsync(_soccerPitchId) ;
+                if (plansResponse != null)
+                {
+                    PlansObject.Clear();
+                    Plans.Clear();
+                    foreach (var item in plansResponse)
+                    {
+                        PlansObject.Add(item);
+                        Plans.Add(item.Name);
+                        IndexSoccerPicthPlan = 0;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                UserDialogs.Instance.Alert(e.Message);
+            }
+
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)
