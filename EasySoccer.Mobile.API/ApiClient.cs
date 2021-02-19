@@ -229,9 +229,9 @@ namespace EasySoccer.Mobile.API
             });
         }
 
-        public async Task<List<SoccerPitchReservationResponse>> GetUserSchedulesAsync()
+        public async Task<List<SoccerPitchReservationResponse>> GetUserSchedulesAsync(int page, int pageSize)
         {
-            return await Get<List<SoccerPitchReservationResponse>>("SoccerPitchReservation/getuserschedules");
+            return await Get<List<SoccerPitchReservationResponse>>("SoccerPitchReservation/getuserschedules?" + GenerateQueryParameters(new { Page = page, PageSize = pageSize }));
         }
 
         public async Task<CompanySchedulesResponse> GetCompanySchedulesAsync(int companyId, int dayOfWeek)

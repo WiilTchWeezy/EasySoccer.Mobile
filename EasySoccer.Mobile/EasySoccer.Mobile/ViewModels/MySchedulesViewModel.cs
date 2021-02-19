@@ -15,10 +15,21 @@ namespace EasySoccer.Mobile.ViewModels
     {
         public ObservableCollection<SoccerPitchReservationModel> Schedules { get; set; }
         private INavigationService _navigationService;
+
+        public DelegateCommand ItemTresholdCommand { get; set; }
         public MySchedulesViewModel(INavigationService navigationService)
         {
             Schedules = new ObservableCollection<SoccerPitchReservationModel>();
             _navigationService = navigationService;
+            ItemTresholdCommand = new DelegateCommand(ItemTreshold);
+        }
+
+        private void ItemTreshold()
+        {
+            if(Schedules.Count > 0 && _hasMoreData)
+            {
+                LoadSchedulesAsync(false, _page, _pageSize);
+            }
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)
@@ -31,22 +42,38 @@ namespace EasySoccer.Mobile.ViewModels
             LoadSchedulesAsync();
         }
 
-        private async void LoadSchedulesAsync()
+        private bool _isBusy = false;
+        private int _page = 1;
+        private int _pageSize = 10;
+        private bool _hasMoreData = true;
+        private async void LoadSchedulesAsync(bool clear = true, int page = 1, int pageSize = 10)
         {
             try
             {
-                var response = await ApiClient.Instance.GetUserSchedulesAsync();
-                if(response != null && response.Count > 0)
+                if (_isBusy == false)
                 {
-                    Schedules.Clear();
-                    foreach (var item in response)
+                    _isBusy = true;
+                    var response = await ApiClient.Instance.GetUserSchedulesAsync(page, pageSize);
+                    if (response != null && response.Count > 0)
                     {
-                        Schedules.Add(new SoccerPitchReservationModel(item, _navigationService));
+                        _page++;
+                        if (clear)
+                            Schedules.Clear();
+                        foreach (var item in response)
+                        {
+                            Schedules.Add(new SoccerPitchReservationModel(item, _navigationService));
+                        }
                     }
+                    else
+                    {
+                        _hasMoreData = false;
+                    }
+                    _isBusy = false;
                 }
             }
             catch (Exception e)
             {
+                _isBusy = false;
                 UserDialogs.Instance.Alert(e.Message);
             }
         }

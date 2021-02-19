@@ -6,7 +6,8 @@
              x:Class="EasySoccer.Mobile.Views.MySchedules"
              Visual="Material">
     <ContentPage.Content>
-        <CollectionView BackgroundColor="#DCDCDC" ItemsSource="{Binding Schedules}" ItemSizingStrategy="MeasureAllItems" >
+        <CollectionView BackgroundColor="#DCDCDC" ItemsSource="{Binding Schedules}" ItemSizingStrategy="MeasureAllItems" 
+                        RemainingItemsThresholdReachedCommand="{Binding ItemTresholdCommand}" RemainingItemsThreshold="1">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="10">

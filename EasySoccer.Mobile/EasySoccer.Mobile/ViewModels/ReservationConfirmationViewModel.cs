@@ -298,7 +298,11 @@ namespace EasySoccer.Mobile.ViewModels
                     {
                         PlansObject.Add(item);
                         Plans.Add(item.Name);
-                        IndexSoccerPicthPlan = 0;
+                    }
+                    var defaultPlan = PlansObject.Where(x => x.IsDefault).FirstOrDefault();
+                    if (defaultPlan != null)
+                    {
+                        IndexSoccerPicthPlan = PlansObject.IndexOf(defaultPlan);
                     }
                 }
             }

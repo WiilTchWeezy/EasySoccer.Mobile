@@ -198,16 +198,19 @@ namespace EasySoccer.Mobile.ViewModels
             {
                 try
                 {
-                    var navigationParameters = new NavigationParameters();
-                    navigationParameters.Add(nameof(SelectedDate), SelectedDate);
-                    navigationParameters.Add("SelectedTime", CompanySchedules[SelectedIndexTime.Value]);
-                    navigationParameters.Add("SelectedSportType", JsonConvert.SerializeObject(SportTypes[SelectedSportTypeIndex.Value]));
-                    navigationParameters.Add("CurrentCompany", JsonConvert.SerializeObject(_currentCompany));
-                    _navigationService.NavigateAsync("ScheduleAvaliable", navigationParameters);
+                    if (SelectedIndexTime.HasValue && CompanySchedules.Count > SelectedIndexTime.Value)
+                    {
+                        var navigationParameters = new NavigationParameters();
+                        navigationParameters.Add(nameof(SelectedDate), SelectedDate);
+                        navigationParameters.Add("SelectedTime", CompanySchedules[SelectedIndexTime.Value]);
+                        navigationParameters.Add("SelectedSportType", JsonConvert.SerializeObject(SportTypes[SelectedSportTypeIndex.Value]));
+                        navigationParameters.Add("CurrentCompany", JsonConvert.SerializeObject(_currentCompany));
+                        _navigationService.NavigateAsync("ScheduleAvaliable", navigationParameters);
+                    }
                 }
                 catch (Exception e)
                 {
-
+                    return;
                 }
             }
         }
