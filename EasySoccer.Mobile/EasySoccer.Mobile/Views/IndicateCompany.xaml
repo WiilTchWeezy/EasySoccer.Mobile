@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="EasySoccer.Mobile.Views.IndicateCompany"
+             xmlns:behaviorPack="clr-namespace:Xamarin.Forms.BehaviorValidationPack;assembly=Xamarin.Forms.BehaviorValidationPack"
+             Visual="Material">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="10">
+                <Label Text="Sentiu falta de algum complexo esportivo ?" Style="{StaticResource gilroyLightLabel}" FontSize="Medium"/>
+                <Label Text="Preencha as informações abaixo, e em breve entraremos em contato com o complexo esportivo." Style="{StaticResource gilroyLightLabel}" FontSize="Medium"/>
+                <Entry Placeholder="Nome Complexo Esportivo" Text="{Binding CompanyName}" BackgroundColor="Transparent"/>
+                <Entry Placeholder="Telefone" Text="{Binding CompanyPhone}" BackgroundColor="Transparent">
+                    <Entry.Behaviors>
+                        <behaviorPack:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
+                    </Entry.Behaviors>
+                </Entry>
+                <Entry Placeholder="Email" Text="{Binding CompanyEmail}" BackgroundColor="Transparent"/>
+                <Editor Placeholder="Observação" Text="{Binding Comment}" AutoSize="TextChanges" BackgroundColor="Transparent"/>
+                <Button Text="Enviar" BackgroundColor="#161E53" TextColor="#FFF" Command="{Binding SaveCommand}"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

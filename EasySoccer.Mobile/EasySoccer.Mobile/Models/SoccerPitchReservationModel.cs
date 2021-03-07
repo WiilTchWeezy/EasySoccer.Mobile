@@ -1,5 +1,6 @@
 ﻿using EasySoccer.Mobile.API.ApiResponses;
 using EasySoccer.Mobile.Infra;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
@@ -23,6 +24,8 @@ namespace EasySoccer.Mobile.Models
             this.SoccerPitchName = item.SoccerPitchName;
             this.UserName = item.UserName;
             this.CompanyName = item.CompanyName;
+            this.Status = item.Status;
+            this.StatusDescription = item.StatusDescription;
             this.CompanyImage = Application.Instance.GetImage(item.Logo, Infra.Enums.BlobContainerEnum.Company);
             OpenReservationInfoCommand = new DelegateCommand(OpenReservationInfo);
             _navigationService = navigationService;
@@ -48,6 +51,33 @@ namespace EasySoccer.Mobile.Models
             {
                 var cultureInfo = new CultureInfo("pt-BR");
                 return cultureInfo.TextInfo.ToTitleCase(this.SelectedDate.ToString("ddd", cultureInfo)) + " · " + this.SelectedDate.ToString("dd MMMM yyyy", cultureInfo) + " (" + this.SelectedHourStart.Hours.ToString("00") + ":" + this.SelectedHourStart.Minutes.ToString("00") + " - " + this.SelectedHourEnd.Hours.ToString("00") + ":" + this.SelectedHourEnd.Minutes.ToString("00") + ")";
+            }
+        }
+
+        [JsonIgnore]
+        public string StatusColor
+        {
+            get
+            {
+                string color = "#f0ad4e";
+                switch (Status)
+                {
+                    case 1:
+                        color = "#f0ad4e";
+                        break;
+                    case 2:
+                        color = "#d9534f";
+                        break;
+                    case 3:
+                        color = "#5cb85c";
+                        break;
+                    case 4:
+                        color = "#0275d8";
+                        break;
+                    default:
+                        break;
+                }
+                return color;
             }
         }
 

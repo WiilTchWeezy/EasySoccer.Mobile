@@ -45,6 +45,17 @@
                     </Grid>
                     <Grid Padding="10">
                         <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigatePageCommand}" CommandParameter="IndicateCompany"/>
+                        </Grid.GestureRecognizers>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="&#xf055;" Style="{StaticResource fontAwesomeLabel}" VerticalTextAlignment="Center" IsEnabled="{Binding UserLoggedIn}" FontSize="25" HorizontalTextAlignment="Center"/>
+                        <Label Grid.Column="1" Text="Indique um Complexo Esportivo" VerticalTextAlignment="Center" FontSize="20" IsEnabled="{Binding UserLoggedIn}" Style="{StaticResource gilroyLightLabel}"/>
+                    </Grid>
+                    <Grid Padding="10">
+                        <Grid.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding NavigatePageCommand}" CommandParameter="{Binding LoginLogoutParameter}"/>
                         </Grid.GestureRecognizers>
                         <Grid.ColumnDefinitions>
@@ -54,6 +65,7 @@
                         <Label Grid.Column="0" Text="&#xf2f6;" Style="{StaticResource fontAwesomeLabel}" FontSize="25" HorizontalTextAlignment="Center"/>
                         <Label Grid.Column="1" Text="{Binding LoginLogoutText}" FontSize="20" Style="{StaticResource gilroyLightLabel}"/>
                     </Grid>
+
                 </StackLayout>
             </StackLayout>
         </ContentPage>

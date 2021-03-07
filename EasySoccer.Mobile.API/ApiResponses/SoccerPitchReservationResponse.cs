@@ -35,5 +35,7 @@ namespace EasySoccer.Mobile.API.ApiResponses
         public string CompanyName { get; set; }
 
         public string Logo { get; set; }
+
+        public string StatusDescription { get; set; }
     }
 }

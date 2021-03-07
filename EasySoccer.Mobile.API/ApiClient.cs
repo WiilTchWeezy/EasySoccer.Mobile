@@ -258,5 +258,10 @@ namespace EasySoccer.Mobile.API
         {
             return await Post<object>("User/logofftoken", new { Token = token, UserId = userId });
         }
+
+        public async Task<object> IndicateCompanyAsync(string name, string phone, string email, string comment)
+        {
+            return await Post<object>("Company/indicatecompany", new { CompanyName = name, CompanyNumber = phone, CompanyEmail = email, Comment = comment });
+        }
     }
 }

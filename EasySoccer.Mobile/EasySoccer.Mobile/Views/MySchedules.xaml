@@ -27,8 +27,8 @@
                                     </Grid.ColumnDefinitions>
                                     <Frame Grid.Column="0"
                                            CornerRadius="100" 
-                                           HeightRequest="60"
-                                           WidthRequest="60"
+                                           HeightRequest="80"
+                                           WidthRequest="80"
                                            HorizontalOptions="Center"
                                            Padding="0"
                                            Margin="5"
@@ -37,15 +37,20 @@
                                     </Frame>
                                     <Grid Grid.Column="1">
                                         <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
                                         <Label Text="{Binding CompanyName}" Grid.Row="0" VerticalOptions="Center" Style="{StaticResource gilroyLabel}" VerticalTextAlignment="Center" FontSize="20"/>
                                         <Label Text="{Binding SoccerPitchName}" Grid.Row="1" Style="{StaticResource gilroyLightLabel}" VerticalTextAlignment="Center" FontSize="Subtitle"/>
+                                        <Frame Grid.Row="2" BackgroundColor="{Binding StatusColor}" CornerRadius="15" Padding="5" HorizontalOptions="Start">
+                                            <Label Text="{Binding StatusDescription}" Style="{StaticResource gilroyLightLabel}" VerticalOptions="Center" FontSize="Small" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+                                        </Frame>
                                     </Grid>
                                 </Grid>
                                 <StackLayout Grid.Row="1" Padding="5" Spacing="2">
                                     <Label Text="{Binding SelectedHourStartEnd}" Style="{StaticResource gilroyLightLabel}" VerticalOptions="Center" FontSize="Small" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
+
                                 </StackLayout>
                             </Grid>
                         </Frame>
