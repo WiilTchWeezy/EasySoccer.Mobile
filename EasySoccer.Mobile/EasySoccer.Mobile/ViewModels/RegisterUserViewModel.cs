@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Xamarin.Essentials;
 
 namespace EasySoccer.Mobile.ViewModels
 {
@@ -50,6 +51,8 @@ namespace EasySoccer.Mobile.ViewModels
 
         public DelegateCommand RegisterCommand { get; set; }
         public DelegateCommand BackCommand { get; set; }
+        public DelegateCommand OpenTermsCommand { get; set; }
+        public DelegateCommand OpenPolicyCommand { get; set; }
 
         private INavigationService _navigationService;
         public RegisterUserViewModel(INavigationService navigationService)
@@ -57,6 +60,18 @@ namespace EasySoccer.Mobile.ViewModels
             _navigationService = navigationService;
             RegisterCommand = new DelegateCommand(Register);
             BackCommand = new DelegateCommand(Back);
+            OpenTermsCommand = new DelegateCommand(OpenTerms);
+            OpenPolicyCommand = new DelegateCommand(OpenPolicy);
+        }
+
+        private async void OpenTerms()
+        {
+            await Browser.OpenAsync("https://www.easysoccer.com.br/documents/terms.html", BrowserLaunchMode.SystemPreferred);
+        }
+
+        private async void OpenPolicy()
+        {
+            await Browser.OpenAsync("https://www.easysoccer.com.br/documents/privacypolicy.html", BrowserLaunchMode.SystemPreferred);
         }
 
         private async void Register()
