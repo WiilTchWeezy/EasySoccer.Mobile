@@ -140,10 +140,10 @@ namespace EasySoccer.Mobile.Models
                 var response = await ApiClient.Instance.GetSoccerPitchPlanBySoccerPitchAsync(soccerPitchId);
                 if (response != null)
                 {
+                    this.SoccerPitchPlans.Clear();
+                    this.SoccerPitchPlansNames.Clear();
                     foreach (var item in response)
                     {
-                        this.SoccerPitchPlans.Clear();
-                        this.SoccerPitchPlansNames.Clear();
                         this.SoccerPitchPlans.Add(item);
                         this.SoccerPitchPlansNames.Add(item.Name);
                     }

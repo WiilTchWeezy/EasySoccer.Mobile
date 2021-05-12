@@ -32,6 +32,11 @@
                             <Entry Text="{Binding SelectedDateText}" BackgroundColor="Transparent" Placeholder="Data selecionada" IsEnabled="False" FontFamily="Gilroy-Light.otf#Gilroy-Light" ></Entry>
                             <Picker ItemsSource="{Binding SoccerPitchs}" BackgroundColor="Transparent" IsEnabled="{Binding SoccerPitchEnabled}" Title="Quadras dísponiveis" FontFamily="Gilroy-Light.otf#Gilroy-Light" SelectedIndex="{Binding IndexSoccerPicth}"></Picker>
                             <Picker ItemsSource="{Binding Plans}" BackgroundColor="Transparent" Title="Planos" FontFamily="Gilroy-Light.otf#Gilroy-Light" SelectedIndex="{Binding IndexSoccerPicthPlan}"></Picker>
+                            <Frame BorderColor="#161E53" CornerRadius="20" IsVisible="{Binding ShowPlanDescription}">
+                                <StackLayout>
+                                    <Label Text="{Binding PlanDescription}" Style="{StaticResource gilroyLightLabel}" FontSize="Medium"/>
+                                </StackLayout>
+                            </Frame>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"></ColumnDefinition>

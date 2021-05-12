@@ -10,8 +10,6 @@ namespace EasySoccer.Mobile.API.ApiResponses
 
         public long SoccerPitchId { get; set; }
 
-        public Guid UserId { get; set; }
-
         public DateTime CreatedDate { get; set; }
 
         public DateTime SelectedDate { get; set; }

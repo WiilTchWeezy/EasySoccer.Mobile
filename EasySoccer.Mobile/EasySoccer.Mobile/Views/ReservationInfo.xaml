@@ -15,6 +15,11 @@
                         <Label Text="{Binding CompanyAddress}" Style="{StaticResource gilroyLightLabel}" FontSize="Micro" FontAttributes="Italic" TextColor="#4E4E4E"></Label>
                     </StackLayout>
                 </StackLayout>
+                <Frame HasShadow="True" Margin="10" CornerRadius="10" BorderColor="{Binding StatusColor}">
+                    <StackLayout>
+                        <Label Text="{Binding StatusDescription}" TextColor="{Binding StatusColor}" Style="{StaticResource gilroyLabel}" HorizontalTextAlignment="Center" ></Label>
+                    </StackLayout>
+                </Frame>
                 <Grid Padding="10">
                     <Frame HasShadow="True" CornerRadius="10" VerticalOptions="FillAndExpand" WidthRequest="200" Padding="0" IsClippedToBounds="True">
                         <Grid Margin="0" Padding="0">

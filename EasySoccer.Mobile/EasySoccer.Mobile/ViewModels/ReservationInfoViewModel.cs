@@ -88,6 +88,21 @@ namespace EasySoccer.Mobile.ViewModels
             get { return _soccerPitchPlanDescription; }
             set { SetProperty(ref _soccerPitchPlanDescription, value); }
         }
+
+        private string _statusColor;
+        public string StatusColor
+        {
+            get { return _statusColor; }
+            set { SetProperty(ref _statusColor, value); }
+        }
+
+        private string _statusDescription;
+        public string StatusDescription
+        {
+            get { return _statusDescription; }
+            set { SetProperty(ref _statusDescription, value); }
+        }
+
         public ReservationInfoViewModel()
         {
 
@@ -111,6 +126,8 @@ namespace EasySoccer.Mobile.ViewModels
                     Hours = $"{response.SelectedDateStart:HH:mm} - {response.SelectedDateEnd:HH:mm}";
                     SoccerPitchPlanName = response.SoccerPitchPlanName;
                     SoccerPitchPlanDescription = response.SoccerPitchPlanDescription;
+                    StatusColor = response.StatusColor;
+                    StatusDescription = response.StatusDescription;
                 }
             }
             catch (Exception e)

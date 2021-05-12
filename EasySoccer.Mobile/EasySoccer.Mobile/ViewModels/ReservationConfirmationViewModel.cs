@@ -141,7 +141,13 @@ namespace EasySoccer.Mobile.ViewModels
             get { return _indexSoccerPicthPlan; }
             set
             {
-                SetProperty(ref _indexSoccerPicthPlan, value);
+                if(SetProperty(ref _indexSoccerPicthPlan, value))
+                {
+                    if(_indexSoccerPicthPlan >= 0)
+                    {
+                        UpdatePlanDescription();
+                    }
+                }
             }
         }
 
@@ -150,6 +156,20 @@ namespace EasySoccer.Mobile.ViewModels
         {
             get { return _selectedDateText; }
             set { SetProperty(ref _selectedDateText, value); }
+        }
+
+        private bool _showPlanDescription;
+        public bool ShowPlanDescription
+        {
+            get { return _showPlanDescription; }
+            set { SetProperty(ref _showPlanDescription, value); }
+        }
+
+        private string _planDescription;
+        public string PlanDescription
+        {
+            get { return _planDescription; }
+            set { SetProperty(ref _planDescription, value); }
         }
 
 
@@ -176,6 +196,20 @@ namespace EasySoccer.Mobile.ViewModels
             Plans = new ObservableCollection<string>();
             _navigationService = navigationService;
             MakeReservationCommand = new DelegateCommand(MakeReservation);
+            ShowPlanDescription = false;
+        }
+
+        private void UpdatePlanDescription()
+        {
+            if(this.IndexSoccerPicthPlan >= 0 && PlansObject.Count > IndexSoccerPicthPlan)
+            {
+                var currentPlan = PlansObject[IndexSoccerPicthPlan];
+                if(currentPlan != null)
+                {
+                    ShowPlanDescription = true;
+                    PlanDescription = currentPlan.Description;
+                }
+            }
         }
 
         private async void LoadDataAsync()
